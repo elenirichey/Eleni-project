@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %} Playdates {% endblock %}
+
+{% block body %}
+  <h1>Welcome to Park Playdates!</h1>
+  <h2>{{user.display_name}} {{ user.email }}</h2>
+
+  for region in regions // for message in region
+  display {{ region.messages }}
