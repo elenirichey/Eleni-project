@@ -94,7 +94,7 @@ class Zipcode(db.Model):
 
     __tablename__ = "zipcodes"
 
-    zipcode = db.Column(db.Integer, primary_key=True)
+    zipcode = db.Column(db.String(5), primary_key=True)
     region_id = db.Column(db.Integer, db.ForeignKey('regions.region_id'), nullable=False)
 
     region= db.relationship("Region", back_populates="zipcodes")

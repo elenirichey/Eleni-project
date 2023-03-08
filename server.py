@@ -53,7 +53,9 @@ def register_user():
 @app.route("/message_board")
 def show_homeboard(region_id):
     """show user's home message board"""
-    homeboard = crud.get_message_by_region(region_id)
+    region = request.form.get("region_id")
+
+    homeboard = crud.get_message_by_region(region)
 
     return render_template("message_board.html", homeboard=homeboard)
 
@@ -75,13 +77,13 @@ def show_user(user_id):
 
 
 
-@app.route("/users/<region_id")
+@app.route("/users/<region_id>")
 def show_users(region_id):
     """show all users in particular region"""
 
     users_in_region = crud.get_users_by_region(region_id)
 
-    return render_template()
+    return render_template("users_in_region.html", users = users_in_region)
 
 
 #get first region id by zipcode and create user with region id

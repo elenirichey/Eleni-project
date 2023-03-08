@@ -4,11 +4,11 @@ from model import db, Region, User, Park, Zipcode, Child, Message, connect_to_db
 
 def create_region(region_name, state):
     """create a region"""
-
     region = Region(region_name=region_name, state=state)
-
+    db.session.add(region)
+    db.session.commit()
     return region
-
+#add zip to region??
 
 def get_regions():
     """return all regions"""
@@ -22,17 +22,21 @@ def get_regions_by_state(state):
 
 # get regions by zipcode? within ____ miles? //get zipcodes in region
 def get_region_by_zipcode(zipcode):
-    region_by_zip = db.session.query(Region).filter_by(zipcode in Region.zipcodes)
+    region_by_zip = db.session.query(Zipcode).filter_by(zipcode=zipcode)
+    if region_by_zip:
+        region_zip_id = region_by_zip.region_id
+        # return region_by_zip.region_id #or region.name?
     # .filter_by(zipcodes = zipcode)
-    return region_by_zip
+    return region_zip_id
 #pass as a region id in create user function
 #before creating user, run function get region by zipcode and get region id and create user with this region id
 
 
 def create_user(email, password, display_name, zipcode):
     """create a user"""
-    region_id = (get_region_by_zipcode(zipcode))
-    print(region_id)
+    region_id = get_region_by_zipcode(zipcode)
+    # print(region_id)
+
     user = User(email=email, password=password, display_name=display_name, region_id=region_id)
 
     return user
@@ -99,6 +103,9 @@ def create_zipcode(zipcode, region_id):
 
    zipcode = Zipcode(zipcode=zipcode, region_id=region_id)
 
+   db.session.add(zipcode)
+   db.session.commit()
+
    return zipcode
 
 
@@ -110,7 +117,7 @@ def get_zipcode_by_region(region_id):
     return zips_in_region
 #get zipcode by region
 
-
+#if zipcode in Region.zipcodes #Region.region_id.zipcodes?
 
 
 
@@ -151,9 +158,9 @@ def get_message_by_user(user_id):
 
 def get_message_by_region(region_id):
     """THIS IS HOW TO CREATE MESSAGE BOARDS""" 
-    #should i call it create_message_board?
-    message_board = db.session.query(Message).filter_by(region_id = Region.region_id)
-    return message_board
+    #should i call it create_message_board? message_board
+    homeboard = db.session.query(Message).filter_by(region_id = Region.region_id)
+    return homeboard
 
 
 

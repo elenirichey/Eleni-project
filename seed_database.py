@@ -18,29 +18,39 @@ model.db.create_all()
 with open("data/regions.json") as f:
     region_data = json.loads(f.read())
 
-
+# zipcodes_in_db=[]
+# for zip in zip_in_region:
+#     zipcode[]
 # //if zipcode in zipinregion - user - zipcode - message - park - child --> park and child are optional
 # //region is what makes the message board -->  i create message boards, users create user
 # //and get assigned a region board based on their zipcode"""
 
 # create regions, store in list so we can create fake users and messages
 #do i need to account for zipcodes in each region?
-regions_in_db = []
+# regions_in_db = []
 for region in region_data:
-    region_name, state = (
+    region_name, state, zip_in_region = (
         region["region_name"],
-        region["state"]
+        region["state"],
+        region["zip_in_region"]
         
     )
     # print(region_name)
     # print(state)
 
     db_region = crud.create_region(region_name, state)
+
+for zip in zip_in_region:
+        zipcode = crud.create_zipcode(zip, db_region.region_id)
+
+        print(zipcode)
+#not sure which indent is appropriate
+
     # print(db_region)
-    regions_in_db.append(db_region)
+    # regions_in_db.append(db_region)
 # print(regions_in_db)
-model.db.session.add_all(regions_in_db)
-model.db.session.commit()
+# model.db.session.add_all(regions_in_db)
+# model.db.session.commit()
 
 #     release_date = datetime.strptime(movie["release_date"], "%Y-%m-%d")
 
@@ -55,21 +65,27 @@ model.db.session.commit()
 
 
 
+from model import Zipcode
 
-# Create 5 users; each user will make 5 messages
+# Create 5 users; 
+zipcodes = Zipcode.query.all()
+
 for n in range(5):
     email = f"user{n}@test.com"  # Voila! A unique email!
     password = "test"
     display_name = f"user {n}"
+    # for region in region_data:
+    #     zip_in_region = (region["zip_in_region"])
 
-    region_id = randint(1,2)
+    zipcode = choice(zipcodes)
     # choice(region.region_id)
     # randint(1,5)# or? #
 
-    user = crud.create_user(email, password, display_name, region_id)
+    user = crud.create_user(email, password, display_name, zipcode)
     model.db.session.add(user)
     model.db.session.commit()
 
+# each user will make 5 messages
 
 #     for _ in range(10):
 #         random_movie = choice(movies_in_db)
