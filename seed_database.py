@@ -40,14 +40,17 @@ for region in region_data:
 
     db_region = crud.create_region(region_name, state)
 
+zbr=[]
+
 for zip in zip_in_region:
         zipcode = crud.create_zipcode(zip, db_region.region_id)
 
-        print(zipcode)
+        # print(zipcode)
 #not sure which indent is appropriate
-
+        zbr.append(zipcode)
     # print(db_region)
     # regions_in_db.append(db_region)
+print (zbr)
 # print(regions_in_db)
 # model.db.session.add_all(regions_in_db)
 # model.db.session.commit()

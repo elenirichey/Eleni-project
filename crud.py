@@ -22,7 +22,7 @@ def get_regions_by_state(state):
 
 # get regions by zipcode? within ____ miles? //get zipcodes in region
 def get_region_by_zipcode(zipcode):
-    region_by_zip = db.session.query(Zipcode).filter_by(zipcode=zipcode)
+    region_by_zip = db.session.query(Zipcode).filter_by(zipcode=zipcode).first()
     if region_by_zip:
         region_zip_id = region_by_zip.region_id
         # return region_by_zip.region_id #or region.name?
