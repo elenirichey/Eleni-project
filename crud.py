@@ -24,10 +24,10 @@ def get_regions_by_state(state):
 def get_region_by_zipcode(zipcode):
     region_by_zip = db.session.query(Zipcode).filter_by(zipcode=zipcode).first()
     if region_by_zip:
-        region_zip_id = region_by_zip.region_id
+        return region_by_zip.region_id
         # return region_by_zip.region_id #or region.name?
     # .filter_by(zipcodes = zipcode)
-    return region_zip_id
+    
 #pass as a region id in create user function
 #before creating user, run function get region by zipcode and get region id and create user with this region id
 
@@ -36,10 +36,11 @@ def create_user(email, password, display_name, zipcode):
     """create a user"""
     region_id = get_region_by_zipcode(zipcode)
     # print(region_id)
-
-    user = User(email=email, password=password, display_name=display_name, region_id=region_id)
-
-    return user
+    if region_id:
+        user = User(email=email, password=password, display_name=display_name, region_id=region_id)
+        db.session.add(user)
+        db.session.commit()
+        return user
 
 def get_users():
     """Return all users."""
@@ -158,8 +159,9 @@ def get_message_by_user(user_id):
 
 def get_message_by_region(region_id):
     """THIS IS HOW TO CREATE MESSAGE BOARDS""" 
-    #should i call it create_message_board? message_board
-    homeboard = db.session.query(Message).filter_by(region_id = Region.region_id)
+    #should i call it create_message_board? message_board # region.messages?
+
+    homeboard = db.session.query(Message).filter_by(region_id = region_id).all()
     return homeboard
 
 

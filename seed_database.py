@@ -10,6 +10,7 @@ import server
 os.system("dropdb Playdates")
 print("dbdropped")
 os.system("createdb Playdates")
+print("dbcreated")
 
 model.connect_to_db(server.app)
 model.db.create_all()
@@ -40,17 +41,17 @@ for region in region_data:
 
     db_region = crud.create_region(region_name, state)
 
-zbr=[]
+    # zbr=[]
 
-for zip in zip_in_region:
+    for zip in zip_in_region:
         zipcode = crud.create_zipcode(zip, db_region.region_id)
 
         # print(zipcode)
 #not sure which indent is appropriate
-        zbr.append(zipcode)
+        # zbr.append(zipcode)
     # print(db_region)
     # regions_in_db.append(db_region)
-print (zbr)
+    # print (zbr)
 # print(regions_in_db)
 # model.db.session.add_all(regions_in_db)
 # model.db.session.commit()
@@ -68,10 +69,11 @@ print (zbr)
 
 
 
-from model import Zipcode
+
 
 # Create 5 users; 
-zipcodes = Zipcode.query.all()
+zipcodes = model.Zipcode.query.all()
+print(zipcodes, 'line 76')
 
 for n in range(5):
     email = f"user{n}@test.com"  # Voila! A unique email!
@@ -84,9 +86,9 @@ for n in range(5):
     # choice(region.region_id)
     # randint(1,5)# or? #
 
-    user = crud.create_user(email, password, display_name, zipcode)
-    model.db.session.add(user)
-    model.db.session.commit()
+    user = crud.create_user(email, password, display_name, zipcode.zipcode)
+    # model.db.session.add(user)
+    # model.db.session.commit()
 
 # each user will make 5 messages
 
