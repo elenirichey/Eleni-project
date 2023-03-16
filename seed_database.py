@@ -90,13 +90,20 @@ for n in range(5):
     # model.db.session.add(user)
     # model.db.session.commit()
 
+users= model.User.query.all()
+test_messages=["Reese", "Rowan", "Ayan", "Anand", "Eleni", "Jude", "Maeve", "Avi"]
 # each user will make 5 messages
+for user in users:
+    for n in range(5):
+        test_message = choice(test_messages)
+
+        message = crud.create_message(user_id=user.user_id, timestamp=datetime.now(), park_id = None, region_id = user.region_id, message = test_message)
 
 #     for _ in range(10):
 #         random_movie = choice(movies_in_db)
-#         score = randint(1, 5)
+#         score = randint(1, 5) // user message userid park id
 
-#         rating = crud.create_rating(user, random_movie, score)
+#         message = crud.create_message(user, random_movie, score)
 #         model.db.session.add(rating)
 
 # model.db.session.commit()

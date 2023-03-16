@@ -1,0 +1,73 @@
+so after log-in/sign up, i want it to take user to their home message board
+
+still need to figure out how to get age by birthdate
+
+still need to put google maps on the homepage
+
+still need to connect google maps to parks etc
+
+make posting to message boards!!
+
+button to add message to board?
+GOOGLE MAPS CREDENTIALS
+
+need to have a delete function! for message board
+do i need to import json?
+make view for user to see user details
+
+search functions
+
+confused about how to account for /where to get/put the list of zipcodes in each region so that i can connect zipcodes to region and region to zipcodes
+
+for parkmap - use location? / enter zipcode
+can i do keyword search IN parks for playground??
+
+
+<script
+async
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0&callback=CALLBACK">
+</script>
+
+
+
+
+
+
+
+const userZip = document.querySelector('#zipcode').value
+
+function initMap() {
+
+    const geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ address: userZip }, (results, status) => {
+        if (status === 'OK') {
+        // Get the coordinates of the user's location
+        const userLocation = results[0].geometry.location;
+
+    const basicMap = new google.maps.Map(document.querySelector('#map'), {
+                center: userLocation,
+                zoom: 11,
+              });
+    
+    const plotParks = (parks) => {
+                // array of parks, use marker to plot on map and fit bounds to center
+            }
+            // PlacesService(mapTarget.current)
+    const service = new window.google.maps.places.PlacesService(basicMap);
+            
+            // radius in meters so I added mile to radius, seems correct, formula pulled from SO ha
+    const radiusInMeters = (Math.round(10000*(radiusMiles*5280 / 3.281))/10000);
+            
+    // location: mapTarget.current.getCenter()
+    service.nearbySearch(
+        {location: basicMap.getCenter(), radius: radiusInMeters, type: ['playground']},
+        (results, status, pagination) => {
+            if (status !== 'OK' || !results.length) {
+                        alert('No parks found near you, try increasing your radius or try a new address');
+        } else {
+            plotParks(results);
+                    }
+        });
+   
+
+}})}

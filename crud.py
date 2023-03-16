@@ -2,6 +2,8 @@
 
 from model import db, Region, User, Park, Zipcode, Child, Message, connect_to_db
 
+from datetime import datetime
+
 def create_region(region_name, state):
     """create a region"""
     region = Region(region_name=region_name, state=state)
@@ -136,24 +138,28 @@ def get_child_by_user(user_id):
     return user_children
 
 
-def get_child_by_age():
+def get_child_by_age(child):
+    child_age= (datetime.now() - child.birthdate)
     """get users with children of specified age"""
 # ???
+    return child_age
 
 
 
 
-def create_Message(timestamp, user_id, park_id, region_id, message):
+def create_message(timestamp, user_id, park_id, region_id, message):
     "create a message"
 #how do i signal that the parkid is optional?
     message = Message(timestamp=timestamp, user_id=user_id, park_id=park_id, region_id=region_id, message=message)
-
+    db.session.add(message)
+    db.session.commit()
     return message
 
 
 def get_message_by_user(user_id):
     """get all messages by a certain user"""
     user_messages = db.session.query(Message).filter_by(user_id = user_id)
+
     return user_messages
 
 

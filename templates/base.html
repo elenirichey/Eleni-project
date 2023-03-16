@@ -16,6 +16,26 @@
       </p>
     {% endfor %}
 
+    <div class="nav">
+      <p>
+        <form action="/map/parkmap" method ="POST">
+        <label for="zipcode">Zipcode</label>
+        <input type="text" name="zipcode" id="zipcode">
+      
+        <button type="submit" id ="playground-search"> Search for a Playground
+     
+        <!-- <a href="/map/parkmap">Search for a Playground</a> -->
+        
+      </button></form>
+      </p>
+      
+    <!-- <p>
+
+      <script
+  async
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0&callback=CALLBACK">
+</script> -->
+    </p>
     {% block body %}{% endblock %}
 
     {% block after_body %}{% endblock %}

@@ -4,12 +4,37 @@
 
 {% block body %}
   <h1>Welcome to Park Playdates!</h1>
-  <h2>{{user.display_name}} {{ user.email }}</h2>
+  <h2>Navigation</h2>
+  <ul>
+       
+    <li><a href="/users/{{ user.user_id }}">My Info</a></li>
+  </ul>
+
+  <h2>{{ user.display_name }} {{ user.email }}</h2>
 
   <!-- need to account for region id -->
-  {% for message in region.region_id.messages %}
-   <!-- for region in regions // for message in region -->
-   display {{ homeboard }}
-   {% endfor %}
+  {% if homeboard %}
+    {% for message in homeboard %}
+    <!-- for region in regions // for message in region -->
+    display {{ message.message }}
+    {{ message.timestamp }}
+    {% endfor %}
+  {% endif %}
+
+
+  <h3> New Message</h3>
+  <form action="/new_message" method="POST">
+    <p>
+    <label for="new-message">Create New Message:</label>
+  </p>
+  <p>
+    <textarea name="new-message" id="new-message"></textarea>
+  </p>
+    <p>
+      <input type="submit">
+    </p>
+
+  </form>
+
    {% endblock %}
   <!-- region.message --> 

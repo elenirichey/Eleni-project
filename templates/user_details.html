@@ -2,16 +2,13 @@
 
 {% block title %}{{ user.email }}'s Page{% endblock %}
 
-<!-- {% block body %}
+{% block body %}
 <h1>{{ user.email }}</h1>
 <ul>
-{% for rating in user.ratings %}
+{% for message in user.messages %}
     <li>
-        {{ rating.movie.title }}:
-        <span class=rating_num_{{ rating.rating_id }} >
-            {{ rating.score }}
-        </span>
+       print {{ message }}
     </li>
 {% endfor %}
 </ul>
-{% endblock %} -->
+{% endblock %}

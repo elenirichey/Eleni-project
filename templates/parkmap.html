@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block head %}
+  <!-- <link rel="stylesheet" href="/static/css/maps.css"/> -->
+  <h1 id = "user_zipcode"> zipcode = {{ zipcode }}  </h1>
+{% endblock %}
+
+{% block body %}
+  <!-- <nav>
+    <section id="links-left">
+      <a href="/map/more">Check out the other demos!</a>
+    </section>
+    <section id="links-right">
+      <a href="/">home</a>
+    </section>
+  </nav> -->
+
+  <section class="map">
+    <div id="map"></div>
+  </section>
+
+   <script src="/static/js/parkmaps.js"></script>
+  <script
+    async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0&callback=initMap">
+  </script> 
+  <!-- <script 
+  async
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0&libraries=places&callback=initMap">
+</script> -->
+{% endblock %}
