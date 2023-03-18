@@ -3,10 +3,14 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
+  
+    
+  
+  
     <title>
       {% block title %}{% endblock %}
     </title>
-
+    <link rel="stylesheet" href="/static/css/base.css"/>
     {% block head %}{% endblock %}
   </head>
   <body>
@@ -28,14 +32,8 @@
         
       </button></form>
       </p>
+    </div>
       
-    <!-- <p>
-
-      <script
-  async
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0&callback=CALLBACK">
-</script> -->
-    </p>
     {% block body %}{% endblock %}
 
     {% block after_body %}{% endblock %}

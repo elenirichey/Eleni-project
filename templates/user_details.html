@@ -11,10 +11,17 @@
 
 
 <ul>
+    <p>
 {% for message in user.messages %}
     <li>
-        {{ message.message }}
+        {{ message.message_id }}
+        <span class='message {{message.message_id}}'>
+            <h3>{{ message.timestamp }}</h3>
+            <p>{{ message.message }}</p>
+        </span>
     </li>
+    </p>    
 {% endfor %}
 </ul>
 {% endblock %}
+

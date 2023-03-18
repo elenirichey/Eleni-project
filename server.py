@@ -102,9 +102,19 @@ def show_user(user_id):
     """Show details on a particular user."""
     user_id = session.get("user_id")
     user = crud.get_user_by_id(user_id)
+    messages = crud.get_message_by_user(user_id)
+    user_children = crud.get_child_by_user(user_id)
 
-    return render_template("user_details.html", user=user, user_id=user_id)
+    return render_template("user_details.html", user=user, user_id=user_id, messages=messages, user_children=user_children)
 
+@app.route("/users/<user_id>/children")
+def show_user_children(user_id):
+    user_id=session.get("user_id")
+    user = crud.get_user_by_id(user_id)
+    user_children = crud.get_child_by_user(user_id)
+    for child in user_children:
+        child_age = crud.get_child_by_age(child)
+        return child_age
 
 
 

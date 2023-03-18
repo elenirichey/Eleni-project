@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 
 {% block head %}
-  <!-- <link rel="stylesheet" href="/static/css/maps.css"/> -->
+  <link rel="stylesheet" href="/static/css/base.css"/>
   <h1 id = "user_zipcode"> zipcode = {{ zipcode }}  </h1>
+  
+
+
 {% endblock %}
 
 {% block body %}
@@ -19,13 +22,11 @@
     <div id="map"></div>
   </section>
 
-   <script src="/static/js/parkmaps.js"></script>
-  <script
-    async
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0&callback=initMap">
-  </script> 
-  <!-- <script 
+ 
+ 
+  <script src="/static/js/parkmaps.js"></script>
+  <script 
   async
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0&libraries=places&callback=initMap">
-</script> -->
+</script>
 {% endblock %}
