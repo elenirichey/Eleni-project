@@ -1,30 +1,293 @@
-const userZip = document.querySelector('#zipcode').value
+// const userZip = document.querySelector('#zipcode').value
+
+const userZip = document.querySelector('#zipcode').innerText;
+
 
 function initMap() {
 
-  const basicMap = new google.maps.Map(document.querySelector('#map'), {
+  const map = new google.maps.Map(document.querySelector('#map'), {
     zoom: 11,
   });
-
+  
   const geocoder = new google.maps.Geocoder();
     geocoder.geocode({ address: userZip }, (results, status) => {
       if (status === 'OK') {
-        // Get the coordinates of the user's location
+        // // Get the coordinates of the user's location
+        // const userLocation = results[0].geometry.location;
+        //   const latitude = results[0].geometry.location.lat();
+        //   const longitude = results[0].geometry.location.lng();
+
+        // const userLocation = ("Latitude: " + latitude + "\nLongitude: " + longitude);
         const userLocation = results[0].geometry.location;
-  
         // Create a marker
-        new google.maps.Marker({
-          position: userLocation,
-          map,
-        });
-  
-        map.setCenter(userLocation);
-        map.setZoom(18);
-      } else {
-        alert(`Geocode was unsuccessful for the following reason: ${status}`);
-      }
-    });
+        
+  const locale = {'loc': userLocation}
+  const parkInfo = new google.maps.InfoWindow();
+
+  fetch ('/local', {
+          method: 'POST',
+          body: JSON.stringify(locale),
+          headers: {
+            'Content-Type': 'application/json'
+          },
+      
+        })
+    .then((response)=> response.json())
+    .then((responseJson) => {
+                  // console.log(responseJson)
+                  // <img
+                        // src="/static/img/polarbear.jpg"
+                         // alt="polarbear"
+                  // />
+      for (const park of responseJson) {
+        const parkInfoContent = `
+          <div class="window-content">
+             <div class="park-thumbnail">
+                      
+            </div>
+      
+            <ul class="park-info">
+              <li><b>Park Geometry:</b>${park.geometry}</li>
+              <li><b>Park Latitude:</b>${park.geometry.location['lat']}</li>
+              <li><b>Park Latitude:</b>${park.geometry.location['lng']}</li>
+              <li><b>Park Icon:</b>${park.icon}</li>
+              <li><b>Park Name:</b>${park.name}</li>
+              <li><b>Park Hours:</b>${park.opening_hours}</li>
+              <li><b>Park Photos:</b>${park.photos}</li>
+              <li><b>Park Address:</b>${park.vicinity}</li>
+            </ul>
+          </div>
+                  `;
+        const parkMarker = new google.maps.Marker({
+          position: {
+            lat : park.geometry.location['lat'],
+            lng: park.geometry.location['lng'],
+           },
+          title: `Park Name: ${park.name}`,
+                    // icon: {
+                    //   url: '${park.icon}',
+                    //   scaledSize: new google.maps.Size(50, 50),
+                    // },
+           map, // same as saying map: map
+          });
+          
+           parkMarker.addListener('click', () => {
+            parkInfo.close();
+            parkInfo.setContent(parkInfoContent);
+            parkInfo.open(map, parkMarker);
+             });
+      
+          }})}});
+
+
+    //     let request = {
+    //       location: locale,
+    //       radius: 5000,
+    //       keyword: 'swings'
+    //     };
+    //     infowindow = new google.maps.InfoWindow();
+    //     var service = new google.maps.places.PlacesService(map);
+    //     service.nearbySearch(request, callback);
+
+    //     var request2 = {
+    //       location: locale,
+    //       radius: 5000,
+    //       keyword: 'slide'
+    //     };
+    //     var service2 = new google.maps.places.PlacesService(map);
+    //     service2.nearbySearch(request2, callback);
+    //     var request3 = {
+    //       location: locale,
+    //       radius: 5000,
+    //       keyword: 'playground'
+    //     };
+    //     var service3 = new google.maps.places.PlacesService(map);
+    //     service3.nearbySearch(request3, callback);
+
+    //     function callback(results, status) {
+    //       if (status == google.maps.places.PlacesServiceStatus.OK) {
+    //         for (var i = 0; i < results.length; i++) {
+    //           createMarker(results[i]);
+    //         }
+    //       } else alert("Places request failed: "+status);
+    //     }
+    //     function createMarker(place) {
+    //       var placeLoc = place.geometry.location;
+    //       var marker = new google.maps.Marker({
+    //         map: map,
+    //         position: place.geometry.location
+    //       });
+        
+    //       google.maps.event.addListener(marker, 'click', function() {
+    //         infowindow.setContent(place.name);
+    //         infowindow.open(map, this);
+    //       });
+    //     }}
+    // })
+// __________-
+    //     fetch ('/local', {
+    //       method: 'POST',
+    //       body: JSON.stringify(locale),
+    //       headers: {
+    //         'Content-Type': 'application/json'
+    //       },
+
+    //     })
+    //     .then((response)=> response.json())
+    //     .then((responseJson) => {
+    //         // console.log(responseJson)
+    //         // <img
+    //               // src="/static/img/polarbear.jpg"
+    //                // alt="polarbear"
+    //         // />
+    //        for (const park of responseJson) {
+    //         const parkInfoContent = `
+    //         <div class="window-content">
+    //           <div class="park-thumbnail">
+                
+    //         </div>
+
+    //         <ul class="park-info">
+    //           <li><b>Park Geometry:</b>${park.geometry}</li>
+    //           <li><b>Park Latitude:</b>${park.geometry.location['lat']}</li>
+    //           <li><b>Park Latitude:</b>${park.geometry.location['lng']}</li>
+    //           <li><b>Park Icon:</b>${park.icon}</li>
+    //           <li><b>Park Name:</b>${park.name}</li>
+    //           <li><b>Park Hours:</b>${park.opening_hours}</li>
+    //           <li><b>Park Photos:</b>${park.photos}</li>
+    //           <li><b>Park Address:</b>${park.vicinity}</li>
+    //         </ul>
+    //       </div>
+    //         `;
+    //         const parkMarker = new google.maps.Marker({
+    //           position: {
+    //             lat : park.geometry.location['lat'],
+    //             lng: park.geometry.location['lng'],
+    //           },
+    //           title: `Park Name: ${park.name}`,
+    //           // icon: {
+    //           //   url: '${park.icon}',
+    //           //   scaledSize: new google.maps.Size(50, 50),
+    //           // },
+    //           map, // same as saying map: map
+    //         });
+    
+    //         parkMarker.addListener('click', () => {
+    //           parkInfo.close();
+    //           parkInfo.setContent(parkInfoContent);
+    //           parkInfo.open(map, parkMarker);
+    //         });
+
+
+
+
+    //        }
+
+    //     });
+
+
+    //     new google.maps.Marker({
+    //       position: userLocation,
+    //       map,
+    //     });
+
+    //     map.setCenter(userLocation);
+    //     map.setZoom(12);
+    //   } else {
+    //     alert(`Geocode was unsuccessful for the following reason: ${status}`);
+    //   }
+    // });
+
+
+    // let axios = require('axios');
+
+    // let config = {
+    //   method: 'get',
+    //   url: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={{userLocation}}&radius=1500&type=park&keyword=playground&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0',
+    //   headers: { }
+    // };
+    
+    // axios(config)
+    // .then(function (response) {
+    //   console.log(JSON.stringify(response.data));
+    // })
+    // .catch(function (error) {
+    //   console.log(error);
+    // });
+
+
   }
+
+
+
+
+// function initMap() {
+
+//   const basicMap = new google.maps.Map(document.querySelector('#map'), {
+//         zoom: 11,
+//       });
+//   function codeAddress() {
+//   geocoder.geocode({
+//     componentRestrictions: {
+//       country: 'US',
+//       postalCode: 'userZip'
+//     }
+//   }, function(results, status) {
+//     if (status == 'OK') {
+//       map.setCenter(results[0].geometry.location);
+//       var marker = new google.maps.Marker({
+//         map: map,
+//         position: results[0].geometry.location
+//       });
+//     } else {
+//       window.alert('Geocode was not successful for the following reason: ' + status);
+//     }
+//   });
+  // }}
+
+
+
+
+// ___________________
+
+// function initMap() {
+
+//   const basicMap = new google.maps.Map(document.querySelector('#map'), {
+//     zoom: 11,
+//   });
+//   const userZip = document.querySelector('#zipcode').value;
+//   const geocoder = new google.maps.Geocoder();
+//     geocoder.geocode({ address: userZip }, (results, status) => {
+//       if (status === 'OK') {
+//         // // Get the coordinates of the user's location
+//         // const userLocation = results[0].geometry.location;
+//           const latitude = results[0].geometry.location.lat();
+//           const longitude = results[0].geometry.location.lng();
+
+//         const userLocation = ("Latitude: " + latitude + "\nLongitude: " + longitude);
+  
+//         // Create a marker
+//         new google.maps.Marker({
+//           position: userLocation,
+//           map,
+//         });
+  
+//         map.setCenter(userLocation);
+//         map.setZoom(18);
+//       } else {
+//         alert(`Geocode was unsuccessful for the following reason: ${status}`);
+//       }
+//     });
+//   }
+
+
+
+
+
+
+
+
+// __________________
 
   // const geocoder = new google.maps.Geocoder();
   // geocoder.geocode( { 'address': userZip}, function (result, status) {

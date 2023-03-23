@@ -36,13 +36,26 @@ def get_region_by_zipcode(zipcode):
 
 def create_user(email, password, display_name, zipcode):
     """create a user"""
+    # if zipcode:
     region_id = get_region_by_zipcode(zipcode)
+    # else:
+    #     zipcode=create_zipcode(zipcode, region_id)
     # print(region_id)
     if region_id:
         user = User(email=email, password=password, display_name=display_name, region_id=region_id)
         db.session.add(user)
         db.session.commit()
-        return user
+
+    else: 
+        zipcode_info = f'https://www.zipcodeapi.com/rest/fuRLOSEI0hS9FnSFYExsRgXqXqxXJsSI5uRuN9GA2mJCcwQqTe06YCVkc87N2sQZ/info.json/{zipcode}/degrees'
+        # city = zipcode_info['city']
+        city = zipcode_info['city']
+        state = zipcode_info['state'] 
+
+        new_region = create_region(region_name = city, state = state)
+        region_id= new_region.region_id
+
+    return user
 
 def get_users():
     """Return all users."""
@@ -71,7 +84,10 @@ def get_users_by_region(region_id):
 #get user's children
 #get users with children of a specified age
 
-
+def get_user_region(user):
+    """get a user's region"""
+    
+    return user.region_id
 
 
 
@@ -93,10 +109,6 @@ def get_all_parks_by_region(region_id):
 #get all parks by zipcode? by region?
 #get all parks by message ie have a message abt them? by playgroup? by users?
 #is that necessary if we have it by region ie message boards
-
-
-
-
 
 
 
@@ -134,7 +146,9 @@ def create_child(birthdate, user_id):
 
 def get_child_by_user(user_id):
     """get a user's children"""
+    
     user_children = db.session.query(Child).filter_by(user_id =user_id)
+    
     return user_children
 
 
@@ -144,6 +158,9 @@ def get_child_by_age(child):
 # ???
     return child_age
 
+# def get_child_age(child):
+#     user_id = 
+#     user_children = db.session.query(Child).filter_by(user_id =user_id)
 
 
 

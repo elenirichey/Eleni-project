@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Add Park{% endblock %}
+
+{% block body %}
+<h1>Add Park</h1>
+<ul>
+    <!-- <p>
+        <form action="/map/parkmap" method ="POST">
+        <label for="zipcode">Zipcode</label>
+        <input type="text" name="zipcode" id="zipcode">
+      
+        <button type="submit" id ="playground-search"> Search for a Playground
+     
+        <a href="/map/parkmap">Search for a Playground</a> -->
+        
+      <!-- </button></form> --> 
+
+
+
+
+    <form action="/add_park" method ="POST">
+        <p>
+        <label for ="park_name">Park Name</label> <input type="text" name="park_name" id="park_name">
+        </p>
+
+        <p>
+        <label for ="park_address">Park Address</label> <input type="text" name="park_address" id="park_address">
+        </p>
+<!-- street address, city, state, zip... if missing one can i pass it to a search i.e. did you mean: -->
+   <!-- <a href="/add_park">Are we missing your favorite park playground?</a> --> 
+        <p>
+        <label for = "zipcode">Zipcode</label> <input type="text" name="zipcode" id="park_zipcode">
+        </p>
+
+        <p>
+        <button type="submit" id ="new_park"> Add Park></button>
+     </p>
+    </form>
+</ul>
+  {% endblock %}

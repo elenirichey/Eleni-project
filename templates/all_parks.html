@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} All Parks Near You {% endblock %}
+
+{% block body %}
+
+  <h1>Parks Near You!</h1>
+
+  <ul>
+    {% for park in parks %}
+      <li>
+        <a href="/parks/{{ park.park_id }}">
+          {{ park.name }}
+          {{ park.address}}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
