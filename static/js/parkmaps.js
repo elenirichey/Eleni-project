@@ -5,9 +5,13 @@ console.log(userZip)
 
 const PLACEIDS = new Set();
 const ALLPARKS = [];//or make it a set?
-const keywords = ['playground', 'park', 'swings', 'slide'];
+const keywords = ['playground', 'park'];
 
-
+// okay so i want to map all the playgrounds from the list of playgrounds that my fetch
+// request is getting, plus the manually added ones - can i add the manually added ones 
+// somewhere besides the db so they can be recaptured if db is deleted? or can i 
+// figure out how to search for multiple keywords
+// TRY WITH TEXT SEARCH GOOGLE MAPS INSTEAD OF NEARBY PLACES??
 
 function initMap() {
   const geocoder = new google.maps.Geocoder();
@@ -23,12 +27,19 @@ function initMap() {
       
       const map = new google.maps.Map(document.querySelector('#map'), {
         center: {lat: userLat, lng: userLng},
-        zoom: 11,
+        // lat: userLat, lng: userLng
+        zoom: 13,
       });
       
       const locale = {'loc': userLocation, 'zipcode': userZip};
       const parkInfo = new google.maps.InfoWindow();
-      
+      // const requestOptions = {
+      //   method:'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify(locale)
+      // }
 
       for (const keyword of keywords) {
         fetch(`/local/${keyword}`, {
@@ -37,7 +48,7 @@ function initMap() {
           headers: {
             'Content-Type': 'application/json'
           }    
-        })
+        })   
           .then((response)=> response.json())
           .then((responseJson) => {
         console.log('line 16')

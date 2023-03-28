@@ -198,13 +198,16 @@ def google(keyword):
     lat=userLocation['lat']
     lng=userLocation['lng']
     #Dynanmic so you can put variables in string
-    url = f'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={lat}%2C{lng}&radius=7500&type=park&keyword={keyword}&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
-
+    # url = f'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={lat}%2C{lng}&radius=7500&type=park&keyword={keyword}&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
+    # url = f'https://maps.googleapis.com/maps/api/place/textsearch/json?query=playground+{lat}+{lng}&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
+    url = f'https://maps.googleapis.com/maps/api/place/textsearch/json?query={keyword}&location={lat},{lng}&radius=500&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
+    
     data = requests.get(url).json()
     print(data)
     for park in data['results']:
         park_name = park['name']
-        park_address = park['vicinity']
+        # park_address = park['vicinity']
+        park_address = park['formatted_address']
         longitude = float(park['geometry']['location']['lng'])
         latitude = float(park['geometry']['location']['lat'])
         region_id = crud.get_region_by_zipcode(zipcode)
