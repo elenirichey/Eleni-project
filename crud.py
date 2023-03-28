@@ -46,14 +46,14 @@ def create_user(email, password, display_name, zipcode):
         db.session.add(user)
         db.session.commit()
 
-    else: 
-        zipcode_info = f'https://www.zipcodeapi.com/rest/fuRLOSEI0hS9FnSFYExsRgXqXqxXJsSI5uRuN9GA2mJCcwQqTe06YCVkc87N2sQZ/info.json/{zipcode}/degrees'
-        # city = zipcode_info['city']
-        city = zipcode_info['city']
-        state = zipcode_info['state'] 
+    # else: 
+    #     zipcode_info = f'https://www.zipcodeapi.com/rest/fuRLOSEI0hS9FnSFYExsRgXqXqxXJsSI5uRuN9GA2mJCcwQqTe06YCVkc87N2sQZ/info.json/{zipcode}/degrees'
+    #     # city = zipcode_info['city']
+    #     city = zipcode_info['city']
+    #     state = zipcode_info['state'] 
 
-        new_region = create_region(region_name = city, state = state)
-        region_id= new_region.region_id
+    #     new_region = create_region(region_name = city, state = state)
+    #     region_id= new_region.region_id
 
     return user
 
@@ -95,9 +95,12 @@ def get_user_region(user):
 
 def create_park(park_name, park_address, latitude, longitude, region_id):
     """create a park"""
-
+    print(park_name, park_address, latitude, longitude, region_id, 'line 98')
     park=Park(park_name=park_name, park_address=park_address, latitude=latitude, longitude=longitude, region_id=region_id)
-
+    print(park, 'line 100')
+    db.session.add(park)
+    db.session.commit()
+    print(park.park_id, 'line 103')
     return park
 
 
@@ -111,7 +114,9 @@ def get_all_parks_by_region(region_id):
 #is that necessary if we have it by region ie message boards
 
 
-
+def get_park_by_id(park_id):
+    "return a park by park id"
+    return Park.query.get(park_id)
 
 def create_zipcode(zipcode, region_id):
    """create a zipcode"""
@@ -134,6 +139,9 @@ def get_zipcode_by_region(region_id):
 
 #if zipcode in Region.zipcodes #Region.region_id.zipcodes?
 
+def zip_in_database(zipcode):
+   if db.session.query(Zipcode).filter_by(zipcode=zipcode):
+    return True
 
 
 def create_child(birthdate, user_id):

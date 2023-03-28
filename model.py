@@ -72,8 +72,8 @@ class Park(db.Model):
     park_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     park_name = db.Column(db.String(50), nullable=False)
     park_address = db.Column(db.String(100), nullable=False)
-    latitude = db.Column(db.Integer)
-    longitude = db.Column(db.Integer)
+    latitude = db.Column(db.Float)
+    longitude = db.Column(db.Float)
     region_id = db.Column(db.Integer, db.ForeignKey('regions.region_id'), nullable=False)
 
     region = db.relationship("Region", back_populates="parks")

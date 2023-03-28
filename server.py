@@ -188,28 +188,31 @@ def view_parkmap():
 
 
 
-@app.route("/local", methods=["GET", "POST"])
-def google():
-    userLocation=request.json.get('loc')
-    zipcode=request.form.get('zipcode')
+@app.route("/local/<keyword>", methods=["POST"])
+def google(keyword):
+    userLocation = request.json.get('loc')
+    zipcode = str(request.json.get('zipcode'))
+    print(userLocation, 'line 195')
+    print(zipcode, 'line 196')
 
     lat=userLocation['lat']
     lng=userLocation['lng']
     #Dynanmic so you can put variables in string
-    url = f'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={lat}%2C{lng}&radius=7500&type=park&keyword=playground&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
+    url = f'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={lat}%2C{lng}&radius=7500&type=park&keyword={keyword}&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
 
     data = requests.get(url).json()
-    # print(data)
+    print(data)
     for park in data['results']:
         park_name = park['name']
-        park_address=park['vicinity']
-        longitude = park['geometry']['location']['lng']
-        latitude = park['geometry']['location']['lat']
-        region_id= crud.get_region_by_zipcode(zipcode)
+        park_address = park['vicinity']
+        longitude = float(park['geometry']['location']['lng'])
+        latitude = float(park['geometry']['location']['lat'])
+        region_id = crud.get_region_by_zipcode(zipcode)
+        print(region_id, 'line 211')
         # hours=park['opening_hours']
         #park_hours? park amenities? should i add them to my model as optional?
-
-        crud.create_park(park_name=park_name, park_address = park_address, latitude = latitude, longitude=longitude, region_id=region_id )
+        if park not in crud.get_all_parks_by_region(region_id):
+            crud.create_park(park_name=park_name, park_address = park_address, latitude = latitude, longitude=longitude, region_id=region_id )
 #can i combine two calls for the data?? to get both park and playground?
 #or to use both my db data and google data? do i need to jsonify the data before the loop?
     return jsonify(data['results'])

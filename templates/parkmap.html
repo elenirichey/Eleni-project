@@ -2,7 +2,7 @@
 
 {% block head %}
   <link rel="stylesheet" href="/static/css/base.css"/>
-  <h1 id = "user_zipcode"> zipcode = <span id= 'zipcode'> {{ zipcode }} </span> </h1>
+  <h1 id = "user-zipcode"> zipcode = <span id= "zipcode"> {{ zipcode }} </span> </h1>
   
 
 
@@ -24,9 +24,10 @@
 
  
  
+  
   <script src="/static/js/parkmaps.js"></script>
   <script 
   async
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0&libraries=places&callback=initMap">
-</script>
+  </script>
 {% endblock %}
