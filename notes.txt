@@ -88,7 +88,7 @@ const locale = {'loc': userLocation}
 
 
 
-           }
+          }
 
         });
 
@@ -338,3 +338,159 @@ def parks_in_region():
 #be able to click on park and take to a park page?
         }) 
     return parks
+
+
+         })
+    .then((response)=> response.json())
+    .then((responseJson) => {
+                  // console.log(responseJson)
+                  // <img
+                        // src="/static/img/polarbear.jpg"
+                         // alt="polarbear"
+                  // /)
+      for (const park of responseJson) 
+        allParks.push(park){
+        console.log(park)
+        const parkInfoContent = `
+          <div class="window-content">
+            <div class="park-thumbnail">
+                      
+            </div>
+
+
+
+
+             fetch ('/local', {
+    method: 'POST',
+    body: JSON.stringify(locale),
+    headers: {
+      'Content-Type': 'application/json'
+         
+  })
+    .then((response)=> response.json())
+    .then((responseJson) => {
+                  // console.log
+
+
+
+                  // const userZip = document.querySelector('#zipcode').value
+
+const userZip = document.querySelector('#zipcode').innerText;
+console.log(userZip)
+
+const fetchKeyword = (keyword, accumulator, checker) => {
+  fetch(`/local/${keyword}`, {
+    method: 'POST',
+    body: JSON.stringify(locale),
+    headers: {
+      'Content-Type': 'application/json'
+    }    
+  })
+  .then((response)=> response.json())
+  .then((responseJson) => {
+    for (const park of responseJson) {
+      if (!checker.has(park.id)) {
+        accumulator.push(park);
+        checker.add(park.park_id);
+      }
+    }
+  })
+}
+
+function initMap() {
+  const geocoder = new google.maps.Geocoder();
+  const keywords = ['parks', 'playgrounds'];
+  const placeIds = Set();
+  const allParks = [];
+
+  geocoder.geocode({ address: userZip }, (results, status) => {
+    if (status === 'OK') {
+         // // Get the coordinates of the user's location
+      // const userLocation = results[0].geometry.location;
+      //   const latitude = results[0].geometry.location.lat();
+      //   const longitude = results[0].geometry.location.lng();
+
+      // const userLocation = ("Latitude: " + latitude + "\nLongitude: " + longitude);
+      const userLocation = results[0].geometry.location;
+      userLat = results[0].geometry.location.lat();
+      userLng = results[0].geometry.location.lng();
+      console.log(userLat)
+      console.log(userLng)
+      console.log('line 22 is hit')
+      // Create a marker
+    
+      
+  const locale = {'loc': userLocation, 'zipcode': userZip}
+  const parkInfo = new google.maps.InfoWindow();      
+      const map = new google.maps.Map(document.querySelector('#map'), {
+        center: {lat: userLat, lng: userLng},
+        zoom: 11,
+      });
+      
+      keywords.forEach((keyword) => {
+        fetchKeyword(keyword, allParks, placeIds);
+      })
+      
+
+      
+
+  fetch ('/local', {
+    method: 'POST',
+    body: JSON.stringify(locale),
+    headers: {
+      'Content-Type': 'application/json'
+         
+  })
+    .then((response)=> response.json())
+    .then((responseJson) => {
+                  // console.log(responseJson)
+                  // <img
+                        // src="/static/img/polarbear.jpg"
+                         // alt="polarbear"
+                  // /)
+      for (const park of responseJson) 
+
+        console.log(park
+        allParks.push(park);)
+       
+         const parkInfoContent = `
+          <div class="window-content">
+            <div class="park-thumbnail">
+                      
+            </div>
+      
+            <ul class="park-info">
+              <li><b>Park Geometry:</b>${park.geometry}</li>
+              <li><b>Park Latitude:</b>${park.geometry.location['lat']}</li>
+              <li><b>Park Latitude:</b>${park.geometry.location['lng']}</li>
+              <li><b>Park Icon:</b>${park.icon}</li>
+              <li><b>Park Name:</b>${park.name}</li>
+              <li><b>Park Hours:</b>${park.opening_hours}</li>
+              <li><b>Park Photos:</b>${park.photos}</li>
+              <li><b>Park Address:</b>${park.vicinity}</li>
+            </ul>
+          </div>
+                  `;
+        const parkMarker = new google.maps.Marker({
+          position: {
+            lat : park.geometry.location['lat'],
+            lng: park.geometry.location['lng'],
+          },
+          title: `Park Name: ${park.name}`,
+                    // icon: {
+                    //   url: '${park.icon}',
+                    //   scaledSize: new google.maps.Size(50, 50),
+                    // },
+           map, // same as saying map: map
+          }); 
+          console.log('line 65 is hit')
+          parkMarker.addListener('click', () => {
+            parkInfo.close();
+            parkInfo.setContent(parkInfoContent);
+            parkInfo.open(map, parkMarker);
+          });
+      
+          }})}})
+
+
+"https://maps.googleapis.com/maps/api/place/textsearch/json?query={keyword}&location={lat},{lng}&radius=2000&region=us&type=cafe,bakery&key=MY_API_KEY"

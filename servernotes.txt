@@ -1,0 +1,14 @@
+if not crud.zip_in_database(zipcode):
+
+        zipcode_info = f'https://www.zipcodeapi.com/rest/fuRLOSEI0hS9FnSFYExsRgXqXqxXJsSI5uRuN9GA2mJCcwQqTe06YCVkc87N2sQZ/info.json/{zipcode}/degrees'
+
+        city = zipcode_info['city']
+        state = zipcode_info['state'] 
+    
+        new_region = crud.create_region(region_name = city, state = state) # return your newly created region object from your db <Region>
+# new_zipcode = Zipcode(zipcode=userLocation, region=new_region)
+
+        zipcodes_in_city = f'https://www.zipcodeapi.com/rest/fuRLOSEI0hS9FnSFYExsRgXqXqxXJsSI5uRuN9GA2mJCcwQqTe06YCVkc87N2sQZ/city-zips.json/{city}/{state}'
+        for zip in zipcodes_in_city:
+            zipcode = crud.create_zipcode(zip, new_region.region_id)
+        # new_region = crud.create_region(region_name = city, state = state)

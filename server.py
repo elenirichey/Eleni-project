@@ -17,11 +17,11 @@ app.jinja_env.undefined = StrictUndefined
 @app.route("/")
 def homepage():
     """View homepage."""
-
+    # user = crud.get_user_by_email(session['email'])
     return render_template("homepage.html")
 
 
-@app.route("/users")
+@app.route("/all_users")
 def all_users():
     """View all users."""
 
@@ -62,6 +62,7 @@ def register_user():
 
 
     user = crud.get_user_by_email(email)
+
     if user:
         flash("Cannot create an account with that email. Try again.")
     else:
@@ -171,7 +172,7 @@ def process_login():
         return redirect("/")
     else:
         # Log in user by storing the user's email in session
-
+        session["user"] = user
         session["email"] = user.email
         session["name"] = user.display_name
         session["region_id"] = user.region_id
