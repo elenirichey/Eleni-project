@@ -6,7 +6,7 @@ console.log(userZip)
 const PLACEIDS = new Set();
 const ALLPARKS = [];//or make it a set?
 const keywords = ['playground', 'park'];
-
+//add next page of results!
 // okay so i want to map all the playgrounds from the list of playgrounds that my fetch
 // request is getting, plus the manually added ones - can i add the manually added ones 
 // somewhere besides the db so they can be recaptured if db is deleted? or can i 
@@ -21,6 +21,7 @@ function initMap() {
       const userLocation = results[0].geometry.location;
       const userLat = results[0].geometry.location.lat();
       const userLng = results[0].geometry.location.lng();
+      // let latlng = new google.maps.LatLng(userLat, userLng)
       console.log(userLat)
       console.log(userLng)
       
@@ -28,9 +29,12 @@ function initMap() {
       const map = new google.maps.Map(document.querySelector('#map'), {
         center: {lat: userLat, lng: userLng},
         // lat: userLat, lng: userLng
-        zoom: 13,
+        zoom: 13
+        // draggable: true,
+        // position: latlng
       });
       
+
       const locale = {'loc': userLocation, 'zipcode': userZip};
       const parkInfo = new google.maps.InfoWindow();
       // const requestOptions = {
@@ -41,8 +45,8 @@ function initMap() {
       //   body: JSON.stringify(locale)
       // }
 
-      for (const keyword of keywords) {
-        fetch(`/local/${keyword}`, {
+      
+        fetch('/local/parks', {
           method: 'POST',
           body: JSON.stringify(locale),
           headers: {
@@ -66,9 +70,7 @@ function initMap() {
             <div class="park-thumbnail"></div>
       
             <ul class="park-info">
-              <li><b>Park Geometry:</b>${park.geometry}</li>
-              <li><b>Park Latitude:</b>${park.geometry.location['lat']}</li>
-              <li><b>Park Latitude:</b>${park.geometry.location['lng']}</li>
+              
               <li><b>Park Icon:</b>${park.icon}</li>
               <li><b>Park Name:</b>${park.name}</li>
               <li><b>Park Hours:</b>${park.opening_hours}</li>
@@ -84,6 +86,8 @@ function initMap() {
           },
           title: `Park Name: ${park.name}`,
           map, // same as saying map: map
+
+          
         }); 
         console.log(parkMarker, "line 103")
         parkMarker.addListener('click', () => {
@@ -92,12 +96,15 @@ function initMap() {
           parkInfo.open(map, parkMarker);
 
 
-        });
+        })
+
+        
+        ;
     } 
 
 
   
 
     console.log("line 76")
-   } )}
+   } )
   }})}

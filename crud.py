@@ -17,6 +17,20 @@ def get_regions():
     return Region.query.all()
 
 
+def return_all_zipcodes():
+    zip_set = set()
+    zips = Zipcode.query.all()
+    for z in zips:
+        zip_set.add(z.zipcode)
+    return zip_set
+
+def all_parknames_by_region(region):
+    park_names = []
+    parks = db.session.query(Park).filter_by(region_id=region).all()
+    for park in parks:
+        park_names.append(park.park_name)
+    return park_names
+
 def get_regions_by_state(state):
     """return all regions by state"""
     regions_by_state = db.session.query(Region).filter_by(state = state)
@@ -90,17 +104,18 @@ def get_user_region(user):
     return user.region_id
 
 
-
+#crud add park to db?
 
 
 def create_park(park_name, park_address, latitude, longitude, region_id):
     """create a park"""
-    print(park_name, park_address, latitude, longitude, region_id, 'line 98')
+
+    # print(park_name, park_address, latitude, longitude, region_id, 'line 98')
     park=Park(park_name=park_name, park_address=park_address, latitude=latitude, longitude=longitude, region_id=region_id)
-    print(park, 'line 100')
+    print(park, 'lin')
     db.session.add(park)
     db.session.commit()
-    print(park.park_id, 'line 103')
+    # print(park.park_id, 'line 100')
     return park
 
 
@@ -140,8 +155,10 @@ def get_zipcode_by_region(region_id):
 #if zipcode in Region.zipcodes #Region.region_id.zipcodes?
 
 def zip_in_database(zipcode):
-   if db.session.query(Zipcode).filter_by(zipcode=zipcode):
-    return True
+#    if db.session.query(Zipcode).filter_by(zipcode=zipcode):
+#     return True
+    zip =  db.session.query(Zipcode).filter_by(zipcode=zipcode).first()
+    return zip
 
 
 def create_child(birthdate, user_id):

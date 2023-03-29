@@ -16,7 +16,7 @@
   {% if homeboard %}
     {% for message in homeboard %}
     <!-- for region in regions // for message in region -->
-    display {{ message.message }}
+     {{ message.message }}
     {{ message.timestamp }}
     {% endfor %}
   {% endif %}
@@ -36,5 +36,15 @@
 
   </form>
 
+  <!-- <h3>Delete Message</h3>
+  <form action="/delete_message" method="POST">
+    <p> 
+      <form>
+        <button type="submit">Delete Message</button>
+      </form>
+    </p> -->
+
+
+  </form>
    {% endblock %}
   <!-- region.message --> 

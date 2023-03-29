@@ -70,7 +70,7 @@ class Park(db.Model):
     __tablename__ = "parks"
 
     park_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    park_name = db.Column(db.String(50), nullable=False)
+    park_name = db.Column(db.String(100), nullable=False)
     park_address = db.Column(db.String(100), nullable=False)
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
