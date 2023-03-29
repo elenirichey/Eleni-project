@@ -172,7 +172,7 @@ def process_login():
         return redirect("/")
     else:
         # Log in user by storing the user's email in session
-        session["user"] = user
+        # session["user"] = user
         session["email"] = user.email
         session["name"] = user.display_name
         session["region_id"] = user.region_id
