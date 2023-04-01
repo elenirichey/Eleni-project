@@ -10,8 +10,8 @@
     {% for park in parks %}
       <li>
         <a href="/parks/{{ park.park_id }}">
-          {{ park.name }}
-          {{ park.address}}
+          {{ park.park_name }}
+          {{ park.park_address }}
         </a>
       </li>
     {% endfor %}

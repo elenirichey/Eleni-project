@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+
+{% block title %} Playdates {% endblock %}
+{% block head %}<link href="/static/css/signin.css" rel="stylesheet">{% endblock %}
+{% block body %}
+
+
+<body class="text-center">
+  <h1>Welcome to Park Playdates!</h1>
+
+  <main class="form-signup">
+    <!-- <div class="col-3">
+      <div class="box-create"> -->
+    
+    <h2>Create an Account</h2>
+    <form action="/users" method="POST">
+      <div class="form-floating">
+        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+        <label for="floatingInput">Email address</label>
+      </div>
+    
+      <!-- <p>
+        Email <input type="text" name="email">
+      </p> -->
+    
+      <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+        <label for="floatingPassword">Password</label>
+      </div>
+      <!-- <p>
+        Password <input type="password" name="password">
+      </p> -->
+    
+      <div class="form-floating">
+        <input type="text" class="form-control" id="floatingDisplayName" placeholder="Name" name="display_name">
+        <label for="floatingDisplayName">Display Name</label>
+      </div>
+      <!-- <p>
+        Display Name <input type="text" name="display_name">
+      </p> -->
+    
+      <div class="form-floating">
+        <input type="text" class="form-control" id="zipcode" placeholder="zipcode" name="zipcode">
+        <label for="floatingZipcode"> Zipcode</label>
+      </div>
+      <!-- <p>
+        Zipcode <input type="text" name="zipcode">
+      </p> -->
+    
+      <p>
+        <input type="submit">
+      </p>
+    </form>
+    </main>
+    {% endblock %}

@@ -2,13 +2,94 @@ html, body {
     margin: 0;
     width: 100%;
     height: 100%;
+    background-color: rgb(186, 242, 187);
+    background-image: url('/static/images/busy park.jpg') no-repeat center center;
+    background-size: cover;
+
 }
 
 .map,
 #map {
+    margin: 25;
+    width: 80%;
+    height: 80%;
+    /* float: right; */
+}
+
+/* .bg-image {
+    background: url('/static/images/busy park.jpg') no-repeat center center;
+    background-size: cover;
     width: 100%;
     height: 100%;
+    backdrop-filter: blur(20px) grayscale(20%); */
+
+/* }  */
+.my-photo {
+    background: url('/static/images/busy park.jpg') no-repeat center center;
+    background-size: cover;
+    filter: blur(5px) grayscale(20%);
+
 }
+body.container {
+    background: url('/static/images/busy park.jpg') no-repeat center center;
+    background-size: cover;
+    filter: blur(100px)
+     grayscale(20%);
+}
+
+
+
+/* .container {
+    border: 1px solid black;
+
+} */
+/* .container-sm{
+    border: 1px solid black;
+
+}
+.col-6{
+    border: 1px solid black; */
+
+/* } */
+
+.box{
+    width: 100%;
+    border: 1px solid black;
+    float: right;
+}
+
+.box-create{
+    width: 100%;
+    border: 1px solid black;
+    float: right;
+    background-color: darkseagreen;
+}
+
+.box-login{
+    width: 100%;
+    border: 1px solid black;
+    float: left;
+    background-color: darkseagreen;
+}
+
+.message-board{
+    width: 100%;
+    border: 1px solid black;
+    float: left;
+    background-color: rgb(220, 235, 220);
+}
+
+.new-message{
+    width: 100%;
+    border: 1px solid black;
+    float: left;
+    background-color: darkseagreen;
+
+
+}
+
+
+
 /* 
 * {
     box-sizing: border-box;

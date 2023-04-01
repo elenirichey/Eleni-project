@@ -1,7 +1,7 @@
 // const userZip = document.querySelector('#zipcode').value
 
 const userZip = document.querySelector('#zipcode').innerText;
-console.log(userZip)
+// console.log(userZip)
 
 const PLACEIDS = new Set();
 const ALLPARKS = [];//or make it a set?
@@ -22,8 +22,8 @@ function initMap() {
       const userLat = results[0].geometry.location.lat();
       const userLng = results[0].geometry.location.lng();
       // let latlng = new google.maps.LatLng(userLat, userLng)
-      console.log(userLat)
-      console.log(userLng)
+      // console.log(userLat)
+      // console.log(userLng)
       
       
       const map = new google.maps.Map(document.querySelector('#map'), {
@@ -36,6 +36,7 @@ function initMap() {
       
 
       const locale = {'loc': userLocation, 'zipcode': userZip};
+      
       const parkInfo = new google.maps.InfoWindow();
       // const requestOptions = {
       //   method:'POST',
@@ -55,27 +56,29 @@ function initMap() {
         })   
           .then((response)=> response.json())
           .then((responseJson) => {
-        console.log('line 16')
+        // console.log('line 16')
         for (const park of responseJson) {
-          console.log(park, 'line 15')
+          // console.log(park, 'line 15')
           if (!PLACEIDS.has(park.place_id)) {
             ALLPARKS.push(park);
             PLACEIDS.add(park.place_id);
-            console.log(ALLPARKS, 'line 62')}
+            // console.log(ALLPARKS, 'line 62')
+          }
       }  
         for (park of ALLPARKS) {
-          console.log(park, 'line 78')
+          // console.log(park, 'line 78')
+          // const photoReference = park.photos.Array(1)['photo_reference']
+          // console.log(photoReference)
           const parkInfoContent = `
           <div class="window-content">
             <div class="park-thumbnail"></div>
       
             <ul class="park-info">
               
-              <li><b>Park Icon:</b>${park.icon}</li>
+              
               <li><b>Park Name:</b>${park.name}</li>
-              <li><b>Park Hours:</b>${park.opening_hours}</li>
-              <li><b>Park Photos:</b>${park.photos}</li>
-              <li><b>Park Address:</b>${park.vicinity}</li>
+              
+              <li><b>Park Address:</b>${park.formatted_address}</li>
             </ul>
           </div>
         `;
@@ -89,7 +92,7 @@ function initMap() {
 
           
         }); 
-        console.log(parkMarker, "line 103")
+        // console.log(parkMarker, "line 103")
         parkMarker.addListener('click', () => {
           parkInfo.close();
           parkInfo.setContent(parkInfoContent);

@@ -249,3 +249,10 @@ function initMap() {
 // <li><b>Park Geometry:</b>${park.geometry}</li>
               // <li><b>Park Latitude:</b>${park.geometry.location['lat']}</li>
               // <li><b>Park Latitude:</b>${park.geometry.location['lng']}</li>
+
+              <li><b>Park Hours:</b>${park.opening_hours['open_now']}</li>
+
+
+              <li><b>Park Photos:</b>${park.photos['photo_reference']}</li>
+
+              <li><b>Park Icon:</b>${park.icon}</li>

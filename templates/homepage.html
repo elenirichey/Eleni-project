@@ -2,56 +2,151 @@
 
 
 {% block title %} Playdates {% endblock %}
+{% block head %}<link href="/static/css/signin.css" rel="stylesheet">
+<!-- <div class="bg-image"></div> -->
+<!-- <style>
+  body {
+     background-image: url('/static/images/busy park.jpg');
+     background-attachment: fixed;
+    filter: blur(3px);
+  }
+</style> -->
 
+
+
+{% endblock %}
 {% block body %}
-  <h1>Welcome to Park Playdates!</h1>
+<!-- <div class="bg-image"></div> -->
 
+<div class="container">
+  <!-- <div class="bg-image"></div> -->
+<body class="text-center">
+  
+  <!-- <div class="bg-text"> -->
+  <h1>Welcome to Park Playdates!</h1>
+  <!-- <div class="bg-image"></div> -->
+ 
+
+
+
+<!-- <div class="container-sm">
+  <div class="row">
+    <div class="col-3 offset-9">
+
+  <div class="box">
   <h2>Navigation</h2>
   <ul>
     <li class="nav-item active"></li>
-    <!-- {% if user.email %}      -->
-    <li><a href="/users/{{ user.user_id }}">My Info</a></li>
+    {% if session %}     
+    <li><a href="/users/{{ session['user_id'] }}">My Info</a></li>
     <li><a href="/parks">Parks Near Me</a></li>
-    <!-- {% else %} -->
+    {% else %}
     <li class="Welcome">Welcome</li>
-    <!-- {% endif %} -->
+    {% endif %}
   </li> 
   </ul>
+</div>
+</div>
+  </div>
+ </div> -->
+<!-- <div class="container"> --> 
+  <!-- <div class="container">
+    <div class="row"> -->
 
-  <h2>Create an Account</h2>
-  <form action="/users" method="POST">
-    <p>
-      Email <input type="text" name="email">
-    </p>
 
-    <p>
-      Password <input type="password" name="password">
-    </p>
+<!-- Background image -->
 
-    <p>
-      Display Name <input type="text" name="display_name">
-    </p>
-    <p>
-      Zipcode <input type="text" name="zipcode">
-    </p>
+<section
+class="bg-image">
 
-    <p>
-      <input type="submit">
-    </p>
-  </form>
+<!-- <div class= "my-photo"></div> -->
+  
+<!-- Background image -->
+<!-- <div class="bg-image"> -->
+  <!-- <div class="bg-text"> -->
+    <!-- <div class="bg-image"> -->
+<div class="login">
+      <main class="form-signin">
+        <form action="/login" method="POST">
+          <!-- <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> -->
+          <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+      
+          <div class="form-floating">
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+            <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+            <label for="floatingPassword">Password</label>
+          </div>
+          <p>
+            <input type="submit">
+          </p>
+        </form>
+      </main>
+    </div>
+<!-- </div> -->
+      <section
+      class="signup">
+      <section id="signup">
+        <li class="active"><a href="/signup">Need To Create An Account?</a></li>
+      </section>
 
-  <h2>Log In</h2>
-  <form action="/login" method="POST">
-    <p>
-      Email <input type="text" name="email">
-    </p>
 
-    <p>
-      Password <input type="password" name="password">
-    </p>
+<main class="form-signup">
+<!-- <div class="col-3">
+  <div class="box-create"> -->
 
-    <p>
-      <input type="submit">
-    </p>
-  </form>
+<h2>Create an Account</h2>
+<form action="/users" method="POST">
+  <div class="form-floating">
+    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+    <label for="floatingInput">Email address</label>
+  </div>
+
+  <!-- <p>
+    Email <input type="text" name="email">
+  </p> -->
+
+  <div class="form-floating">
+    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+    <label for="floatingPassword">Password</label>
+  </div>
+  <!-- <p>
+    Password <input type="password" name="password">
+  </p> -->
+
+  <div class="form-floating">
+    <input type="text" class="form-control" id="floatingDisplayName" placeholder="Name" name="display_name">
+    <label for="floatingDisplayName">Display Name</label>
+  </div>
+  <!-- <p>
+    Display Name <input type="text" name="display_name">
+  </p> -->
+
+  <div class="form-floating">
+    <input type="text" class="form-control" id="zipcode" placeholder="zipcode" name="zipcode">
+    <label for="floatingZipcode"> Zipcode</label>
+  </div>
+  <!-- <p>
+    Zipcode <input type="text" name="zipcode">
+  </p> -->
+
+  <p>
+    <input type="submit">
+  </p>
+</form>
+</main>
+<!-- </div>
+</div> -->
+
+<!-- </div>
+</div> -->
+</section>
+</div>
+<!-- </div> -->
+</section>
+<!-- </div> -->
+</body>
+<!-- </div> -->
 {% endblock %}

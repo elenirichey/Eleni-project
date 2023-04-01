@@ -59,7 +59,8 @@ def register_user():
         for zipp in zipcodes_in_city:
             zipcode = crud.create_zipcode(zipp, new_region.region_id)
         # new_region = crud.create_region(region_name = city, state = state)
-
+    else:
+        region_id= crud.get_region_by_zipcode(zipcode)
 
     user = crud.get_user_by_email(email)
 
@@ -166,7 +167,7 @@ def process_login():
 
 
     user = crud.get_user_by_email(email)
-
+    print (user)
     if not user or user.password != password:
         flash("The email or password you entered was incorrect.")
         return redirect("/")
@@ -177,17 +178,30 @@ def process_login():
         session["name"] = user.display_name
         session["region_id"] = user.region_id
         session["user_id"] = user.user_id
+        session["logged_in"] = True
         
         flash(f"Welcome back, {user.display_name} ({user.email})!")
-
+    print(session)
     return redirect(f"/message_board/{user.region_id}")
 
+@app.route("/logout")
+def process_logout():
+    """Log user out."""
+
+    del session["email"]
+    del session["name"]
+    del session["region_id"]
+    del session["user_id"]
+    # session.pop('user', None) ???
+
+    flash("Logged out.")
+    return redirect("/")
 
 @app.route("/map/parkmap", methods = ["POST"])
 def view_parkmap():
 
     zipcode = request.form.get('zipcode')
-
+#maybe eventually i can add the zipcodes in radius feature??
 
     return render_template("parkmap.html", zipcode=zipcode)
 
@@ -199,15 +213,15 @@ def google():
     zipcode = str(request.json.get('zipcode'))
     print(userLocation, 'line 195')
     print(zipcode, 'line 196')
-
+    #maybe eventually i can add the zipcodes in radius feature??
     lat=userLocation['lat']
     lng=userLocation['lng']
     #Dynanmic so you can put variables in string
     # url = f'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={lat}%2C{lng}&radius=7500&type=park&keyword={keyword}&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
     # url = f'https://maps.googleapis.com/maps/api/place/textsearch/json?query=playground+{lat}+{lng}&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
     # url = f'https://maps.googleapis.com/maps/api/place/textsearch/json?query={keyword}&location={lat},{lng}&radius=10&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
-    url_parks = f'https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&location={lat},{lng}&radius=500&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
-    url_playgrounds = f'https://maps.googleapis.com/maps/api/place/textsearch/json?query=playground&location={lat},{lng}&radius=500&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
+    url_parks = f'https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&location={lat},{lng}&radius=100&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
+    url_playgrounds = f'https://maps.googleapis.com/maps/api/place/textsearch/json?query=playground&location={lat},{lng}&radius=100&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
     
     park_data = requests.get(url_parks).json()
     playground_data = requests.get(url_playgrounds).json()
@@ -306,6 +320,7 @@ def new_region():
 # create a region for city, state if one doesn't already exist
         new_region = crud.create_region(region_name = city, state = state) # return your newly created region object from your db <Region>
 # new_zipcode = Zipcode(zipcode=userLocation, region=new_region)
+#maybe eventually i can add the 'zipcodes in radius" feature??
 
         zipcodes_in_city = f'https://www.zipcodeapi.com/rest/fuRLOSEI0hS9FnSFYExsRgXqXqxXJsSI5uRuN9GA2mJCcwQqTe06YCVkc87N2sQZ/city-zips.json/{city}/{state}'
         for zip in zipcodes_in_city:
@@ -319,7 +334,7 @@ def new_region():
 @app.route("/parks")
 def parks_in_region():
     region_id = session['region_id']
-    print(region_id)
+    # print(region_id)
     parks = crud.get_all_parks_by_region(region_id)
 
     return render_template("all_parks.html", parks = parks)
@@ -337,13 +352,16 @@ def parks_in_region():
 # #be able to click on park and take to a park page?
 #         }) 
 #     return parks
-app.route("/parks/<park_id>")
-def show_park_info(park):
+@app.route("/parks/<park_id>")
+def show_park_info(park_id):
 #need event listener for click on park link?
-    park = crud.get_park_by_id(park.park_id)
+    park = crud.get_park_by_id(park_id)
     
     return render_template("park_details.html", park = park)
 
+@app.route("/signup")
+def sign_up():
+    return render_template("signup.html")
 
 @app.route("/add_park")
 def view_add_park():
@@ -355,13 +373,17 @@ def process_add_park():
     park_name = request.form.get("park_name")
     park_address = request.form.get("park_address")
     zipcode = request.form.get("park_zipcode")
-    # request.json.get - api request call api request for that address
+    zipcode_info = requests.get(f'https://www.zipcodeapi.com/rest/WDYLG229vLjY9yvVfANO5TACiqVVZbT1ADaOhjnSKNFQWUNKebQbBatoIJbaQAra/info.json/{zipcode}/degrees', verify=False).json()
+    latitude = zipcode_info['lat']
+    longitude = zipcode_info['lng']
+    # request.json.get - api request c
+    # all api request for that address
     # latitude = 
     # longitude = 
     region_id = crud.get_region_by_zipcode(zipcode)
  # address city/state/etc
 #  https://maps.googleapis.com/maps/api/geocode/json?address={zipcode}&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
-    crud.create_park(park_name = park_name, park_address = park_address, zipcode=zipcode, region_id=region_id )
+    crud.create_park(park_name = park_name, park_address = park_address, latitude = latitude, longitude = longitude, region_id=region_id ) #zipcode=zipcode
    #don't know park address? enter info you have and we will look it up?
     flash(f"Success! you have added {park_name} at {park_address} to our list of parks!")
     

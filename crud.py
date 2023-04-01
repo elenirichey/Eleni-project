@@ -121,8 +121,10 @@ def create_park(park_name, park_address, latitude, longitude, region_id):
 
 def get_all_parks_by_region(region_id):
     """get all parks in a region"""
-    parks_in_region = db.session.query(Park).filter_by(region_id = Park.region_id)
+    parks_in_region = db.session.query(Park).filter_by(region_id = Park.region_id).all()
     return parks_in_region
+
+# ORDER BY
     # return Park.query.all() #where park zipcode in zip_in_region
 #get all parks by zipcode? by region?
 #get all parks by message ie have a message abt them? by playgroup? by users?
@@ -172,7 +174,7 @@ def create_child(birthdate, user_id):
 def get_child_by_user(user_id):
     """get a user's children"""
     
-    user_children = db.session.query(Child).filter_by(user_id =user_id)
+    user_children = db.session.query(Child).filter_by(user_id =user_id).all()
     
     return user_children
 
