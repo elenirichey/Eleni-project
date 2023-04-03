@@ -14,11 +14,11 @@
   <div class="background">
   </div>
 
-<body class="text-center">
+<body class="board-background">
   <br>
   
   <h1>Welcome to Your Area Parks Message Board!</h1>
-  <section class="bg-image">
+  <section class="board-bg-image">
  </section>
   <br>
   <br>
@@ -36,49 +36,71 @@
 <br>
 <br>
 
-  <div class="container">
-    <div class="row">
-    <div class="text-center">
+  <div class="container-fluid">
+    <!-- <div class="row"> -->
+    <!-- <div class="text-center"> -->
       <div class="message-board">
 
 
   <!-- need to account for region id -->
   {% if homeboard %}
+  <div class="box"><h1 class="h3 mb-3 fw-normal">{{user.region.region_name}}</h1> </div>
+ 
+  
     {% for message in homeboard %}
     <!-- for region in regions // for message in region -->
+    <br>
+    <div class="message-box">
+      
      {{ message.message }}
     {{ message.timestamp }}
+    -- {{ user.display_name }}
+    </div>
+    
     {% endfor %}
+    
     {% else %}
     <h1> No one has posted anything yet!</h1>
   {% endif %}
-</div>
-</div>
-</div>
+  <br>
+  <br>
 </div>
 
+
+<br>
+<!-- </div> -->
+<!-- </div> -->
+<!-- </div> -->
+<!-- 
 <div class="container">
-  <div class="row">
-  <div class="text-center">
-    <div class="new-message">
+  <div class="row"> -->
+  <!-- <div class="text-center"> -->
+    <div class="add-message">
 
   <h3> New Message</h3>
   <form action="/new_message" method="POST">
-    <p>
+    <h1 class="h3 mb-3 fw-normal">Create New Message</h1>
+    <!-- <p>
     <label for="new-message">Create New Message:</label>
-  </p>
+  </p> -->
+ <!-- <div class="text-area"> -->
   <p>
-    <textarea name="new-message" id="new-message"></textarea>
+    <textarea name="new-message" id="new-message">
+
+      
+    </textarea>
   </p>
+<!-- </div> -->
     <p>
       <input type="submit">
     </p>
 
   </form>
 </div>
+<!-- </div> -->
 </div>
-</div>
-</div>
+<!-- </div>
+</div> -->
 </body>
 </div>
   <!-- <h3>Delete Message</h3>

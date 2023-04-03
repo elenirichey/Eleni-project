@@ -267,7 +267,7 @@ color: rgb(161, 157, 157);
   } */
 
   .signup-bg-image {
-    background-image: url('/static/images/signup.jpg');
+    background-image: url('/static/images/messageboard.jpg');
 opacity: 50%;
     /* Add the blur effect */
     /* filter: blur(8px);
