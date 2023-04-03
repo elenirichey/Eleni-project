@@ -494,3 +494,24 @@ function initMap() {
 
 
 "https://maps.googleapis.com/maps/api/place/textsearch/json?query={keyword}&location={lat},{lng}&radius=2000&region=us&type=cafe,bakery&key=MY_API_KEY"
+
+
+
+<!-- <div class="col-3">
+    <div class="box-login">
+  <h2>Log In</h2>
+  <form action="/login" method="POST">
+    <p>
+      Email <input type="text" name="email">
+    </p>
+
+    <p>
+      Password <input type="password" name="password">
+    </p>
+
+    <p>
+      <input type="submit">
+    </p>
+  </form>
+  </div>
+</div> -->

@@ -20,20 +20,30 @@ body {
 
 
 .bg-image {
+  background-color: white;
     background-image: url('/static/images/busy park.jpg');
-opacity: 50%;
+opacity: 60%;
     /* Add the blur effect */
-    filter: blur(8px);
+    /* filter: blur(8px);
     /* -webkit-filter: blur(8px); */
   
     /* Full height */
-    height: 100%;
+    /* height: 100%;
   
     /* Center and scale the image nicely */
+    /* background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;  */ 
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(3px);
+    z-index: -1;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-
 
 
 }
@@ -43,7 +53,13 @@ background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
   color: white;
   font-weight: bold;
+  /* -webkit-text-shadow: 1px black; */
   border: 3px solid #f1f1f1;
+  /* text-shadow:
+		-1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000; */
   position: absolute;
   top: 50%;
   left: 50%;
@@ -52,14 +68,46 @@ background-color: rgb(0,0,0); /* Fallback color */
   width: 100%;
   padding: 20px;
   text-align: center;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
 
+.signup-background{
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  text-shadow: 3px solid black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  
 
 }
 
-.bg-text{
-    background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
-  color: white;
+
+
+a:link{
+  text-decoration: none;
+  color: rgb(80, 49, 234);
+}
+a:visited {
+  text-decoration: none;
+  color: rgb(33, 73, 16);
+}
+
+
+/* .bg-text{
+    background-color: rgb(0,0,0); Fallback color
+  background-color: rgba(0,0,0, 0.4); Black w/opacity/see-through */
+  /* color: white;
   font-weight: bold;
   border: 3px solid #f1f1f1;
   position: absolute;
@@ -72,17 +120,22 @@ background-color: rgb(0,0,0); /* Fallback color */
   text-align: center;
 
 
+} */
+
+.h1{
+  color:black;
+
 }
 
-
-
-
-
 .form-signin {
+    background-color: darkseagreen;
     width: 100%;
     max-width: 330px;
-    padding: 15px;
+    padding: 25px;
     margin: auto;
+    border: 1px;
+   
+    
   }
   
   .form-signin .checkbox {
@@ -91,29 +144,45 @@ background-color: rgb(0,0,0); /* Fallback color */
   
   .form-signin .form-floating:focus-within {
     z-index: 2;
+    color: rgb(159, 157, 157);
   }
   
+.form-floating{
+color: rgb(161, 157, 157);
+
+}
+
   .form-signin input[type="email"] {
-    margin-bottom: -1px;
+    margin-bottom: 10px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
+    color: rgb(164, 161, 161);
+    /* -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 75px; /*Increase height as required*/
+    /* margin-bottom: 30px;
+    padding: 0 20px; Now only left & right padding */ 
+ 
+
   }
-  
+   
   .form-signin input[type="password"] {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+    color: rgb(166, 164, 164);
   }
-  
+  /*
   .form-signin {
    
       width: 100%;
       max-width: 330px;
       padding: 15px;
       margin: auto;
-    }
+    } */
     
-    .form-signin .checkbox {
+    /* .form-signin .checkbox {
       font-weight: 400;
     }
     
@@ -131,11 +200,10 @@ background-color: rgb(0,0,0); /* Fallback color */
       margin-bottom: 10px;
       border-top-left-radius: 0;
       border-top-right-radius: 0;
-    }
+    } */
 
 
-
-
+   
 
 
 .form-signup {
@@ -143,6 +211,8 @@ background-color: rgb(0,0,0); /* Fallback color */
   max-width: 330px;
   padding: 15px;
   margin: auto;
+  background-color: darkseagreen;
+  
 }
 
 .form-signup .checkbox {
@@ -154,40 +224,70 @@ background-color: rgb(0,0,0); /* Fallback color */
 }
 
 .form-signup input[type="email"] {
-  margin-bottom: -1px;
+  margin-bottom: 10px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
 
+.form-signup input[type="text"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
 .form-signup input[type="password"] {
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-
-.form-signup {
+/* .form-signup {
     width: 100%;
     max-width: 330px;
     padding: 15px;
     margin: auto;
-  }
+  } */
   
-  .form-signup .checkbox {
+  /* .form-signup .checkbox {
     font-weight: 400;
   }
-  
-  .form-signup .form-floating:focus-within {
+   */
+  /* .form-signup .form-floating:focus-within {
     z-index: 2;
-  }
+  } */
   
-  .form-signup input[type="email"] {
+  /* .form-signup input[type="email"] {
     margin-bottom: -1px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
-  }
+  } */
   
-  .form-signup input[type="password"] {
+  /* .form-signup input[type="password"] {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+  } */
+
+  .signup-bg-image {
+    background-image: url('/static/images/signup.jpg');
+opacity: 50%;
+    /* Add the blur effect */
+    /* filter: blur(8px);
+    /* -webkit-filter: blur(8px); */
+  
+    /* Full height */
+    /* height: 100%;
+  
+    /* Center and scale the image nicely */
+    /* background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;  */ 
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(3px);
+    z-index: -1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
   }

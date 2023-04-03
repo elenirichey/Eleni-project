@@ -1,16 +1,41 @@
 {% extends 'base.html' %}
 
 {% block title %} Playdates {% endblock %}
+{% block head %}
 
+
+
+
+
+{% endblock %}
 {% block body %}
-  <h1>Welcome to Park Playdates!</h1>
+
+<div class="container">
+  <div class="background">
+  </div>
+
+<body class="text-center">
+  <br>
+  
+  <h1>Welcome to Your Area Parks Message Board!</h1>
+  <section class="bg-image">
+ </section>
+  <br>
+  <br>
   <!-- <h2>Navigation</h2>
   <ul>
        
     <li><a href="/users/{{ user.user_id }}">My Info</a></li>
   </ul> -->
+<div class="user">
+  <h2>Hello,  {{ user.display_name }}!</h2> 
+  <br>
+  <h3>{{ user.email }}</h3></div>
+  
+<br>
+<br>
+<br>
 
-  <h2>{{ user.display_name }} {{ user.email }}</h2>
   <div class="container">
     <div class="row">
     <div class="text-center">
@@ -53,6 +78,8 @@
 </div>
 </div>
 </div>
+</div>
+</body>
 </div>
   <!-- <h3>Delete Message</h3>
   <form action="/delete_message" method="POST">

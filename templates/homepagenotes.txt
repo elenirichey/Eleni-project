@@ -3,26 +3,71 @@
 
 {% block title %} Playdates {% endblock %}
 {% block head %}<link href="/static/css/signin.css" rel="stylesheet">
+<!-- <div class="bg-image"></div> -->
+<!-- <style>
+  body {
+     background-image: url('/static/images/busy park.jpg');
+     background-attachment: fixed;
+    filter: blur(3px);
+  }
+</style> -->
 
 
 
 {% endblock %}
 {% block body %}
-
+<!-- <div class="bg-image"></div> -->
 
 <div class="container">
   <div class="background">
-  </div>
-
-<body class="signup-background">
+</div>
+  <!-- <div class="bg-image"></div> -->
+<body class="text-center">
   
-  
+  <!-- <div class="bg-text"> -->
   <h1>Welcome to Park Playdates!</h1>
   <section class="bg-image">
  </section>
  
 
 
+
+<!-- <div class="container-sm">
+  <div class="row">
+    <div class="col-3 offset-9">
+
+  <div class="box">
+  <h2>Navigation</h2>
+  <ul>
+    <li class="nav-item active"></li>
+    {% if session %}     
+    <li><a href="/users/{{ session['user_id'] }}">My Info</a></li>
+    <li><a href="/parks">Parks Near Me</a></li>
+    {% else %}
+    <li class="Welcome">Welcome</li>
+    {% endif %}
+  </li> 
+  </ul>
+</div>
+</div>
+  </div>
+ </div> -->
+<!-- <div class="container"> --> 
+  <!-- <div class="container">
+    <div class="row"> -->
+
+
+<!-- Background image -->
+
+<!-- <section
+class="info"> -->
+
+<!-- <div class= "my-photo"></div> -->
+  
+<!-- Background image -->
+<!-- <div class="bg-image"> -->
+  <!-- <div class="bg-text"> -->
+    <!-- <div class="bg-image"> -->
 <div class="login">
       <main class="form-signin">
         <form action="/login" method="POST">
@@ -43,16 +88,17 @@
         </form>
       </main>
     </div>
-
+<!-- </div> -->
       <section
       class="signup">
       <section id="signup">
         <li class="active"><a href="/signup">Need To Create An Account?</a></li>
       </section>
- 
 
-<!-- <main class="form-signup">
 
+<main class="form-signup">
+<!-- <div class="col-3">
+  <div class="box-create"> -->
 
 <h2>Create an Account</h2>
 <form action="/users" method="POST">
@@ -61,33 +107,50 @@
     <label for="floatingInput">Email address</label>
   </div>
 
-
+  <!-- <p>
+    Email <input type="text" name="email">
+  </p> -->
 
   <div class="form-floating">
     <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
     <label for="floatingPassword">Password</label>
   </div>
+  <!-- <p>
+    Password <input type="password" name="password">
+  </p> -->
 
   <div class="form-floating">
     <input type="text" class="form-control" id="floatingDisplayName" placeholder="Name" name="display_name">
     <label for="floatingDisplayName">Display Name</label>
   </div>
-  
+  <!-- <p>
+    Display Name <input type="text" name="display_name">
+  </p> -->
 
   <div class="form-floating">
     <input type="text" class="form-control" id="zipcode" placeholder="zipcode" name="zipcode">
     <label for="floatingZipcode"> Zipcode</label>
   </div>
+  <!-- <p>
+    Zipcode <input type="text" name="zipcode">
+  </p> -->
 
   <p>
     <input type="submit">
   </p>
 </form>
-</main> -->
+</main>
+<!-- </div>
+</div> -->
 
+<!-- </div>
+</div> -->
 </section>
 </body>
 </div>
+<!-- </div> -->
 
+<!-- </div> -->
 
+<!-- </div> -->
 {% endblock %}
