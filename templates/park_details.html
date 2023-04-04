@@ -1,20 +1,62 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ park.park_name }}'s Page{% endblock %}
+{% block title %} {{ park.park_name }}'s Page{% endblock %}
+{% block head %}
+<br>
+<br>
+
+
+{% endblock %}
 
 {% block body %}
-<h1>{{ park.park_name }}</h1>
+
+
+
+<div class="container">
+  <div class="background">
+  </div>
+
+<body class="park-background">
+  <br>
+
+  <h1> {{ park.park_name }} </h1>
+  <section class="each-bg-image">
+  </section> 
+<br>
+
+<div class="address">
+
 <h2>{{ park.park_address }}</h2>
-
+</div>
+<br>
+<br>
 <!-- park hours, park amenities -->
-
-
+<div class="container-fluid">
+    <!-- <div class="row"> -->
+    <!-- <div class="text-center"> -->
+      <div class="message-board">
+        <div class="box"><h1 class="h3 mb-3 fw-normal">{{park.park_name}} Messages</h1> </div>
 {% if park.messages %}
-{% for message in park.messages %}
-<li>
-    {{park.message.message}}
-  </li>
-{% endfor %}
 
+
+
+{% for message in park.messages %}
+<br>
+
+<div class="message-box">
+      
+
+    {{park.message.message}}
+    {{ park.message.timestamp }}
+    -- {{ park.message.user.display_name }}
+  <!-- <div class="message-box"> -->
+   </div>   
+{% endfor %}
+{% else %}
+    <h1> No one has posted anything yet!</h1>
 {% endif %}
+</div>
+</div>
+</body>
+</div>
 {% endblock %}

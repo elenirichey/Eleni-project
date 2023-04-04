@@ -2,7 +2,8 @@
 
 {% block title %} Playdates {% endblock %}
 {% block head %}
-
+<br>
+<br>
 
 
 
@@ -27,11 +28,33 @@
        
     <li><a href="/users/{{ user.user_id }}">My Info</a></li>
   </ul> -->
-<div class="user">
-  <h2>Hello,  {{ user.display_name }}!</h2> 
-  <br>
-  <h3>{{ user.email }}</h3></div>
+
   
+  <div class="container">
+  <div class="user-info">
+<div class="row">
+  
+  <div class="col-3 col-md-2 col-sm-1">
+    <div class="left">
+    <h3>{{ user.display_name }}</h1>
+    <h3>{{ user.email }}</h2>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="user">
+      <h2>Hello,  {{ user.display_name }}!</h2> 
+      <br>
+      <h3>{{ user.email }}</h3></div>
+
+</div>
+<div class="col-3">
+<h3>{{ user.region.region_name }}</h2>
+<h3>{{ user.children }}</h2>
+</div>
+</div>
+  </div>
+   </div>
+  </div>
 <br>
 <br>
 <br>
@@ -54,7 +77,7 @@
       
      {{ message.message }}
     {{ message.timestamp }}
-    -- {{ user.display_name }}
+    -- {{ message.user.display_name }}
     </div>
     
     {% endfor %}
@@ -87,7 +110,7 @@
   <p>
     <textarea name="new-message" id="new-message">
 
-      
+
     </textarea>
   </p>
 <!-- </div> -->

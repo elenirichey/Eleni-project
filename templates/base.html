@@ -20,7 +20,8 @@
         {{ msg }}
       </p>
     {% endfor %}
-    <nav class="navbar navbar-expand-md fixed-top">
+    <nav class="navbar navbar-expand fixed-top">
+      <div class="navbar">
     <div class="container-fluid">
       <!-- <div class="nav"> -->
         <div class="navbar-header">
@@ -30,7 +31,7 @@
           {% if session %} 
           <li class="active"><a href="/message_board/{user.region_id}">Home</a></li>
             <!-- <li class="nav-item active"></li> -->
-            <li><a href="/users/{{ session['user_id'] }}">My Info</a></li>
+            <!-- <li><a href="/users/{{ session['user_id'] }}">My Info</a></li> -->
             <li><a href="/parks">Parks Near Me</a></li>
             {% else %}
             <li class="Welcome">Welcome</li>
@@ -55,7 +56,7 @@
     </p>
 
     </div>
-    
+  </div>
   </nav>
 <!-- <div class="container-fluid">
   <div class="row">
