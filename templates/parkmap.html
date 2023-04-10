@@ -3,55 +3,44 @@
 {% block head %}
   <link rel="stylesheet" href="/static/css/base.css"/>
 
-  <br>
-  <br>
-  
-  
+ 
 <br>
 <br>
-<h1 id = "user-zipcode"> zipcode = <span id= "zipcode"> {{ zipcode }} </span> </h1> <
+<h1 id = "user-zipcode"> zipcode = <span id= "zipcode"> {{ zipcode }} </span> </h1> 
 
 {% endblock %}
 
 {% block body %}
-<nav><h1 id = "user-zipcode"> zipcode = <span id= "zipcode"> {{ zipcode }} </span> </h1> </nav>
 
-  <!-- <nav>
-    <section id="links-left">
-      <a href="/map/more">Check out the other demos!</a>
-    </section>
-    <section id="links-right">
-      <a href="/">home</a>
-    </section>
-  </nav> -->
-<!-- <div class = "container"> -->
-  
-
-  
-
+  <br>
+<!-- <div class="background"></div> -->
    <body class="map-background">
-    
-  <section class="map">
+    <div class="background" id="parkmap-background"></div>
+    <section class="map-bg-image" id="treasure-map">
+      <!--  -->
+    <!-- </section> -->
+  <!-- <section class="map"> -->
   
     <div id="map"></div>
    <!-- <div class="box"> -->
   <!-- <div class="row"> -->
-    <div class="row d-flex justify-content-center">
+    <!-- <div class="row d-flex justify-content-center"> -->
     
 
-    <div class="col-6-md">
+    <!-- <div class="col-6-md"> -->
     <!-- <div class="text-center">
     </div> -->
   <!-- </div> -->
-</div>
-</div>
+<!-- </div>
+</div> -->
 <!-- </div> -->
   
 
 <!-- </div> -->
-    </section>
+   
  <!-- </div> -->
  
+</section>
 </body>
 
   <script src="/static/js/parkmaps.js"></script>
@@ -63,5 +52,4 @@
 
   </script>
  
-  
 {% endblock %}
