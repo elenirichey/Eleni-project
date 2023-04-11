@@ -82,23 +82,25 @@ def register_user():
 
 @app.route("/message_board/<region_id>")
 def show_homeboard(region_id):
-    """show user's home message board"""
+    while session:
     # user=session.get("")
 
-    display_name=session.get("name")
+        display_name=session.get("name")
 
-    region_id = session.get("region_id")
+        region_id = session.get("region_id")
 
-    # print(session['zipcode'])
-    # region_id = crud.get_region_by_zipcode(zipcode)
-    # crud.create_Message(datetime.now(), 1, None, 1, "hello there")
-    homeboard = crud.get_message_by_region(region_id)
-    has_messages = len(homeboard)
+        # print(session['zipcode'])
+        # region_id = crud.get_region_by_zipcode(zipcode)
+        # crud.create_Message(datetime.now(), 1, None, 1, "hello there")
+        homeboard = crud.get_message_by_region(region_id)
+        has_messages = len(homeboard)
 
-    user = crud.get_user_by_email(session['email'])
+        user = crud.get_user_by_email(session['email'])
 
-    return render_template("message_board.html", homeboard=homeboard, user=user, has_messages=has_messages)
-
+        return render_template("message_board.html", homeboard=homeboard, user=user, has_messages=has_messages)
+    
+    else:
+        return redirect("/")
 
 
 @app.route("/new_message", methods = ["POST"])
@@ -167,34 +169,43 @@ def process_login():
 
 
     user = crud.get_user_by_email(email)
-    print (user)
-    if not user or user.password != password:
-        flash("The email or password you entered was incorrect.")
+    # print (user)
+    if not user:
+        flash("No such email address")
         return redirect("/")
-    else:
+    if user.password != password:
+        flash("incorrect password")
+        return redirect("/")
+    
+
+
         # Log in user by storing the user's email in session
         # session["user"] = user
-        session["email"] = user.email
-        session["name"] = user.display_name
-        session["region_id"] = user.region_id
-        session["user_id"] = user.user_id
-        session["logged_in"] = True
+    session["logged_in"] = True
+    session["email"] = user.email
+    session["name"] = user.display_name
+    session["region_id"] = user.region_id
+    session["user_id"] = user.user_id
+   
         
-        flash(f"Welcome back, {user.display_name} ({user.email})!")
+    flash(f"Welcome back, {user.display_name} ({user.email})!")
     print(session)
     return redirect(f"/message_board/{user.region_id}")
 
 @app.route("/logout")
 def process_logout():
     """Log user out."""
-
+    
+    
     del session["email"]
     del session["name"]
     del session["region_id"]
     del session["user_id"]
+    del session["logged_in"]
+    
     # session.pop('user', None) ???
 
-    flash("Logged out.")
+    flash(f"Logged out.")
     return redirect("/")
 
 @app.route("/map/parkmap", methods = ["POST"])
@@ -333,25 +344,28 @@ def new_region():
 
 @app.route("/parks")
 def parks_in_region():
-    region_id = session['region_id']
-    # print(region_id)
-    parks = crud.get_all_parks_by_region(region_id)
+    if session:
+        region_id = session['region_id']
+        # print(region_id)
+        parks = crud.get_all_parks_by_region(region_id)
 
-    return render_template("all_parks.html", parks = parks)
-#     # email = request.form.get("email")
-#     # user = crud.get_user_by_email(email)
-#     # region_id = crud.get_user_region(user)
-#     parks = []
+        return render_template("all_parks.html", parks = parks)
+    #     # email = request.form.get("email")
+    #     # user = crud.get_user_by_email(email)
+    #     # region_id = crud.get_user_region(user)
+    #     parks = []
 
-#     for park in crud.get_all_parks_by_region(region_id):
-#             parks.append({
-#             "id": park.park_id,
-#             "park name": park.park_name,
-#             "address": park.park_address,   
-# #add all messages by park?
-# #be able to click on park and take to a park page?
-#         }) 
-#     return parks
+    #     for park in crud.get_all_parks_by_region(region_id):
+    #             parks.append({
+    #             "id": park.park_id,
+    #             "park name": park.park_name,
+    #             "address": park.park_address,   
+    # #add all messages by park?
+    # #be able to click on park and take to a park page?
+    #         }) 
+    #     return parks
+    else:
+        return redirect("/")
 @app.route("/parks/<park_id>")
 def show_park_info(park_id):
 #need event listener for click on park link?

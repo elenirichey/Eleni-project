@@ -154,3 +154,7 @@ class="info"> -->
 
 <!-- </div> -->
 {% endblock %}
+
+
+ <!-- <li class="nav-item active"></li> -->
+            <!-- <li><a href="/users/{{ session['user_id'] }}">My Info</a></li> -->

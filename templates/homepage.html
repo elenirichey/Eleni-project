@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-
 {% block title %} Playdates {% endblock %}
 {% block head %}<link href="/static/css/signin.css" rel="stylesheet">
-
+<br>
+<br>
 
 
 {% endblock %}
@@ -11,10 +11,11 @@
 
 
 <div class="container">
-  <div class="background">
-  </div>
+  <!-- <div class="background">
+  </div> -->
 
 <body class="signup-background">
+  <br>
   
   
   <h1>Welcome to Park Playdates!</h1>
@@ -22,7 +23,11 @@
  </section>
  
 <br>
+<div class="row">
+<div class="flash-msg"></div></div>
+<br>
 
+<div class="container">
 <div class="login">
       <main class="form-signin">
         <form action="/login" method="POST">
@@ -47,9 +52,9 @@
       <section
       class="signup">
       <section id="signup">
-        <li class="active"><a href="/signup">Need To Create An Account?</a></li>
+        <div class="active"><a href="/signup">Need To Create An Account?</a></div>
       </section>
- 
+    </div>
 
 <!-- <main class="form-signup">
 

@@ -29,13 +29,13 @@
         </div>
         <!-- <ul class="nav navbar-nav"> -->
           {% if session %} 
-          <li class="active"><a href="/message_board/{user.region_id}">Home</a></li>
-            <!-- <li class="nav-item active"></li> -->
-            <!-- <li><a href="/users/{{ session['user_id'] }}">My Info</a></li> -->
-            <li><a href="/parks">Parks Near Me</a></li>
-            {% else %}
-            <li class="Welcome">Welcome</li>
-            {% endif %}
+          <a class="active"><a href="/message_board/{user.region_id}">Home</a>
+          <a class="nav-link" href="/logout">Log Out</a>
+            <a href="/parks">Parks Near Me</a>
+          {% else %}
+            <h1 class="Welcome">Welcome</h1>
+            <a class="nav-link" href="/">Log In</a>
+          {% endif %}
           </li> 
           <!-- </ul> -->
       <p>
@@ -50,7 +50,7 @@
       </button></form>
 
       <section id="add-park">
-      <li class="active"><a href="/add_park">Are we missing your favorite park playground?</a></li>
+      <a class="active" href="/add_park">Are we missing your favorite park playground?</a>
     </section>
 
     </p>
