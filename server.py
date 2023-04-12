@@ -116,14 +116,29 @@ def add_new_message_to_homeboard():
     region_id = user.region_id
     
 
-    new_message = crud.create_message(timestamp=datetime.now(), user_id=user_id, park_id = park_id, region_id = region_id, message = message)
+    new_message = crud.create_message(timestamp=(datetime.now()).strftime("%d-%m-%Y %H:%M:%S"), user_id=user_id, park_id = park_id, region_id = region_id, message = message)
     
     
     return redirect (f"/message_board/{user.region_id}")
 
-# @app.route("/delete_message", methods = ["POST"])
-# def delete_user_message():
-#     message = request.form.get("selected-message")
+@app.route("/delete_message")
+def delete_user_message(post_id):
+    #onclick - get clicked message id?
+    # message = request.form.get("selected-message")
+    #or else on click? not sure how to connect them
+    post_id = session.get("post_id")
+    user = crud.get_user_by_email(session['email'])
+    message = crud.get_message_by_message_id(post_id)
+
+    if user == message.user_id:
+        db.session.delete(message)
+        db.session.commit()
+        flash("you have deleted your message")
+    
+    else:
+        flash("Sorry, you can only delete your posted messages")
+
+
     #comes from clicking on the delete button in the message - so clicking that button should send the info of the message id
 
 

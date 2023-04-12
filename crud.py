@@ -220,7 +220,7 @@ def get_message_by_region(region_id):
     return homeboard
 
 def get_message_by_message_id(post_id):
-    message = db.session.query(Message).filter_by(post_id=post_id)
+    message = db.session.query(Message).filter_by(post_id=post_id).first()
     return message
 
 def get_message_by_park_id(park_id):

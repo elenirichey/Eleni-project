@@ -61,28 +61,35 @@
 <br>
 
   <div class="container-fluid">
-    <!-- <div class="row"> -->
-    <!-- <div class="text-center"> -->
-      <div class="message-board">
+   
+  <div class="message-board">
 
 
-  <!-- need to account for region id -->
+  
   {% if homeboard %}
-  <div class="box"><h1 class="h3 mb-3 fw-normal">{{user.region.region_name}}</h1> </div>
+  <div class="box">
+  <h1 class="h3 mb-3 fw-normal">{{user.region.region_name}}</h1> 
  
   
     {% for message in homeboard %}
-    <!-- for region in regions // for message in region -->
-    <br>
     <div class="message-box">
-      
+    
+    <!-- <div class="message-box"> -->
+  
      {{ message.message }}
     {{ message.timestamp }}
     -- {{ message.user.display_name }}
-    </div>
-    
+      {% if message.user_id == user.user_id %}
+    <span class="active offset-2"><a href="/delete_message">Delete</a></span>
+     {% endif %}
+    <br>
+  
+  </div> 
+  
     {% endfor %}
-    
+  
+  </div>
+</div>
     {% else %}
     <h1> No one has posted anything yet!</h1>
   {% endif %}
@@ -91,7 +98,6 @@
 </div>
 
 
-<br>
 <!-- </div> -->
 <!-- </div> -->
 <!-- </div> -->
@@ -101,9 +107,9 @@
   <!-- <div class="text-center"> -->
     <div class="add-message">
 
-  <h3> New Message</h3>
+  <h1> New Message</h1>
   <form action="/new_message" method="POST">
-    <h1 class="h3 mb-3 fw-normal">Create New Message</h1>
+    <h3 class="h3 mb-3 fw-normal">Create New Message</h3>
     <!-- <p>
     <label for="new-message">Create New Message:</label>
   </p> -->
@@ -122,11 +128,12 @@
   </form>
 </div>
 <!-- </div> -->
-</div>
+<!-- </div> -->
 <!-- </div>
 </div> -->
 </body>
 </div>
+
   <!-- <h3>Delete Message</h3>
   <form action="/delete_message" method="POST">
     <p> 
@@ -135,7 +142,58 @@
       </form>
     </p> -->
 
+    <!-- <div class="modal fade" id="editMessage" tabindex="-1" role="dialog" aria-labelledby="editMessageLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="editModalLabel">Edit</h4>
+          </div>
+          <div class="modal-body">
+            <form role="form">
+              
+              <div class="form-group">
+                <label for="message-text" class="control-label">Message</label>
+                <textarea class="form-control" id="editmessage"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button id="btnUpdate" type="button" class="btn btn-primary">Update</button>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+
+
+
+    <!-- <script id="listTemplate">
+    <li class="list-group-item">
+        <div class="checkbox">
+            
+        </div>
+        <div class="pull-right action-buttons">
+            <a data-toggle="modal" data-target="#editMessage"><span class="glyphicon glyphicon-pencil"></span></a>           
+        </div>
+    </li>
+  </script> -->
+
+
+    <!-- <div class="row">
+      <div class="col-md-12">            
+          <div class="panel-body">
+            <ul id="ulist" class="list-group">
+                                               
+            </ul>
+          </div>             
+      </div>
+    </div> -->
+
+
 <!-- 
   </form> -->
+  <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.js"></script>
    {% endblock %}
   <!-- region.message --> 
