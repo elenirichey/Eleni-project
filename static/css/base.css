@@ -57,7 +57,7 @@ html, body {
 }
 
 .map-background{
-  background: url('/static/images/treasuremap.jpeg') no-repeat center center;
+  /* background: url('/static/images/treasuremap.jpeg') no-repeat center center; */
   background-size: cover;
   /* backdrop-filter: blur(10px); */
   background-color: white;
@@ -109,6 +109,36 @@ body.container {
     filter: blur(100px)
      grayscale(20%);
 }
+#parkmap-background {
+ 
+
+background-color: white;
+background: url('/static/images/treasuremap.jpeg') no-repeat center center;
+    /* background-image: url('/static/images/addpark.jpg'); */
+opacity: 60%;
+    /* Add the blur effect */
+    /* filter: blur(8px);
+    /* -webkit-filter: blur(8px); */
+  
+    /* Full height */
+    /* height: 100%;
+  
+    /* Center and scale the image nicely */
+    /* background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;  */ 
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(3px);
+    z-index: -1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 
 .addpark-bg-image {
   background-color: white;

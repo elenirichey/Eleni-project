@@ -122,13 +122,13 @@ a:visited {
 
 } */
 
-.h1{
-  color:black;
+h1{
+  color:rgb(44, 12, 118);
 
 }
 
 .form-signin {
-    background-color: darkseagreen;
+    background-color: rgb(224, 239, 228);
     width: 100%;
     max-width: 330px;
     padding: 20px;

@@ -219,7 +219,9 @@ def get_message_by_region(region_id):
     homeboard = db.session.query(Message).filter_by(region_id = region_id).all()
     return homeboard
 
-
+def get_message_by_message_id(post_id):
+    message = db.session.query(Message).filter_by(post_id=post_id)
+    return message
 
 def get_message_by_park_id(park_id):
     """get all posts referencing a specific park(id)"""
