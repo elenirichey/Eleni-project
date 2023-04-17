@@ -71,44 +71,44 @@ for region in region_data:
 
 
 
-# Create 5 users; 
-zipcodes = model.Zipcode.query.all()
-print(zipcodes, 'line 76')
+# # Create 5 users; 
+# zipcodes = model.Zipcode.query.all()
+# print(zipcodes, 'line 76')
 
-for n in range(5):
-    email = f"user{n}@test.com"  # Voila! A unique email!
-    password = "test"
-    display_name = f"user {n}"
-    # for region in region_data:
-    #     zip_in_region = (region["zip_in_region"])
+# for n in range(5):
+#     email = f"user{n}@test.com"  # Voila! A unique email!
+#     password = "test"
+#     display_name = f"user {n}"
+#     # for region in region_data:
+#     #     zip_in_region = (region["zip_in_region"])
 
-    zipcode = choice(zipcodes)
-    # choice(region.region_id)
-    # randint(1,5)# or? #
+#     zipcode = choice(zipcodes)
+#     # choice(region.region_id)
+#     # randint(1,5)# or? #
 
-    user = crud.create_user(email, password, display_name, zipcode.zipcode)
-    # model.db.session.add(user)
-    # model.db.session.commit()
+#     user = crud.create_user(email, password, display_name, zipcode.zipcode)
+#     # model.db.session.add(user)
+#     # model.db.session.commit()
 
-users= model.User.query.all()
-test_messages=["Reese", "Rowan", "Ayan", "Anand", "Eleni", "Jude", "Maeve", "Avi"]
-# each user will make 5 messages
-for user in users:
-    for n in range(5):
-        test_message = choice(test_messages)
+# users= model.User.query.all()
+# test_messages=["Reese", "Rowan", "Ayan", "Anand", "Eleni", "Jude", "Maeve", "Avi"]
+# # each user will make 5 messages
+# for user in users:
+#     for n in range(5):
+#         test_message = choice(test_messages)
 
-        message = crud.create_message(user_id=user.user_id, timestamp=datetime.now(), park_id = None, region_id = user.region_id, message = test_message)
+#         message = crud.create_message(user_id=user.user_id, timestamp=datetime.now(), park_id = None, region_id = user.region_id, message = test_message)
 
-#     for _ in range(10):
-#         random_movie = choice(movies_in_db)
-#         score = randint(1, 5) // user message userid park id
+# #     for _ in range(10):
+# #         random_movie = choice(movies_in_db)
+# #         score = randint(1, 5) // user message userid park id
 
-#         message = crud.create_message(user, random_movie, score)
-#         model.db.session.add(rating)
+# #         message = crud.create_message(user, random_movie, score)
+# #         model.db.session.add(rating)
 
-# model.db.session.commit()
-if __name__ == "__main__":
-    from server import app
+# # model.db.session.commit()
+# if __name__ == "__main__":
+#     from server import app
 
     # connect_to_db(app)
     # print("connected to database")

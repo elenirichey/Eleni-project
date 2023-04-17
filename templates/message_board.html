@@ -36,44 +36,67 @@
   
   <div class="col-3 col-md-2 col-sm-1">
     <div class="left">
-    <h3>{{ user.display_name }}</h1>
-    <h3>{{ user.email }}</h2>
+      <br>
+    <h2>{{ user.display_name }}</h2>
+      
+    <h3>{{ user.email }}</h3>
+      <br>
     </div>
   </div>
   <div class="col-6">
     <div class="user">
-      <h2>Hello,  {{ user.display_name }}!</h2> 
       <br>
+      <h1>Hello,  {{ user.display_name }}!</h1> 
+      
       <!-- <h3>{{ user.email }}</h3></div> -->
 
 </div>
 </div>
-<div class="col-3">
-<h3>{{ user.region.region_name }}</h2>
-<h3>{{ user.children }}</h2>
+<div class="col-3 col-md-2 col-sm-1">
+<h2>{{ user.region.region_name }}</h2>
+{% if children %}
+  {% for child in children %}
+<h4> Child DOB {{ child.birthdate.date()}} </h4>
+
+  {% endfor %}
+  {% endif %}
 <!-- </div> -->
 </div>
+  </div> 
+  <div class="row">
+    <div class="col-9"></div>
+    <div class="col-2 col-md-2 col-sm-1">
+  <div class="small-box">
+    <!-- <div class="little"> -->
+    
+      <h6>New Baby?</h6>
+      <form action="/add_child" METHOD = "POST">
+        <div class="form">
+          <input type="date" id="add-child" class="form-control-sm" placeholder="birthdate (MM/DD/YY)" name="birthdate">
+          <!-- <label for="Input">Birthdate (MM/DD/YY)</label> -->
+        </div>
+        <button type="Submit" id="Add-Child">Add Child
+        </button>
+
+      </form>
+    </div>
+    </div>
   </div>
    </div>
   </div>
-<br>
-<br>
-<br>
 
   <div class="container-fluid">
     <!-- <div class="row"> -->
     <!-- <div class="text-center"> -->
       <div class="message-board">
 
-
   <!-- need to account for region id -->
   {% if homeboard %}
-  <div class="box"><h1 class="h3 mb-3 fw-normal">{{user.region.region_name}}</h1> </div>
+  <div class="box"><h1 class="h3 mb-3 fw-bold">{{user.region.region_name}}</h1> </div>
  
-  
     {% for message in homeboard %}
     <!-- for region in regions // for message in region -->
-    <br>
+    
     <div class="message-box">
       
      {{ message.message }}
@@ -87,23 +110,15 @@
     <h1> No one has posted anything yet!</h1>
   {% endif %}
   <br>
-  <br>
 </div>
-
-
 <br>
-<!-- </div> -->
-<!-- </div> -->
-<!-- </div> -->
-<!-- 
-<div class="container">
-  <div class="row"> -->
-  <!-- <div class="text-center"> -->
+
+
     <div class="add-message">
 
-  <h3> New Message</h3>
+  <!-- <h3> New Message</h3> -->
   <form action="/new_message" method="POST">
-    <h1 class="h3 mb-3 fw-normal">Create New Message</h1>
+    <h2 class="mb-3 fw-bold">Create New Message</h2>
     <!-- <p>
     <label for="new-message">Create New Message:</label>
   </p> -->

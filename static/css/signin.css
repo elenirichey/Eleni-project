@@ -22,7 +22,7 @@ body {
 .bg-image {
   background-color: white;
     background-image: url('/static/images/busy park.jpg');
-opacity: 60%;
+opacity: 50%;
     /* Add the blur effect */
     /* filter: blur(8px);
     /* -webkit-filter: blur(8px); */
@@ -99,10 +99,20 @@ background-color: rgb(0,0,0); /* Fallback color */
 a:link{
   text-decoration: none;
   color: rgb(30, 9, 138);
+  -webkit-text-stroke: rgb(8, 220, 248);
+  -webkit-text-stroke-color: rgb(5, 243, 251);
+  -webkit-text-stroke-width: .5px;
+  font-weight: bold;
+  font-size: 14pt;
 }
 a:visited {
   text-decoration: none;
   color: rgb(33, 73, 16);
+  -webkit-text-stroke: rgb(8, 214, 241);
+  -webkit-text-stroke-color: rgb(7, 244, 248);
+  -webkit-text-stroke-width: .5px;
+  font-weight: bold;
+  font-size: 14pt;
 }
 
 
@@ -126,6 +136,11 @@ a:visited {
 
 .h1{
   color:black;
+  font-weight:bold;
+  -webkit-text-stroke: white;
+-webkit-text-stroke-color: white;
+-webkit-text-stroke-width: .5px;
+font:bold;
 
 }
 

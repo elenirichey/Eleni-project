@@ -76,9 +76,9 @@ function initMap() {
             <ul class="park-info">
               
               
-              <li><b>Park Name:</b>${park.name}</li>
-              
-              <li><b>Park Address:</b>${park.formatted_address}</li>
+               <b>${park.name}</b>
+              <br>
+              Address: <b>${park.formatted_address}</b>
             </ul>
           </div>
         `;

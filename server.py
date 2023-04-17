@@ -2,7 +2,8 @@
 from flask import Flask, render_template, request, flash, session, redirect, jsonify
 from model import connect_to_db, db
 import crud
-from datetime import datetime
+from sqlalchemy import cast, Date
+from datetime import datetime, date
 
 from jinja2 import StrictUndefined
 import requests
@@ -89,6 +90,7 @@ def show_homeboard(region_id):
 
         region_id = session.get("region_id")
 
+
         # print(session['zipcode'])
         # region_id = crud.get_region_by_zipcode(zipcode)
         # crud.create_Message(datetime.now(), 1, None, 1, "hello there")
@@ -96,8 +98,13 @@ def show_homeboard(region_id):
         has_messages = len(homeboard)
 
         user = crud.get_user_by_email(session['email'])
+        user_id =session.get("user_id")
+        children = crud.get_child_by_user(user_id)
 
-        return render_template("message_board.html", homeboard=homeboard, user=user, has_messages=has_messages)
+        # for child in children:
+        #     age = crud.get_child_by_age(child)
+
+        return render_template("message_board.html", homeboard=homeboard, user=user, has_messages=has_messages, children=children)
     
     else:
         return redirect("/")
@@ -116,7 +123,7 @@ def add_new_message_to_homeboard():
     region_id = user.region_id
     
 
-    new_message = crud.create_message(timestamp=datetime.now(), user_id=user_id, park_id = park_id, region_id = region_id, message = message)
+    new_message = crud.create_message(timestamp=(datetime.now()).strftime("%Y-%m-%d %H:%M:%S"), user_id=user_id, park_id = park_id, region_id = region_id, message = message)
     
     
     return redirect (f"/message_board/{user.region_id}")
@@ -215,6 +222,26 @@ def view_parkmap():
 #maybe eventually i can add the zipcodes in radius feature??
 
     return render_template("parkmap.html", zipcode=zipcode)
+
+
+@app.route("/add_child", methods=["POST"])
+def add_child():
+    user_id=session.get("user_id")
+    # birthdate = (cast(request.form.get("birthdate"), Date))
+    birthdate= request.form.get("birthdate")
+    
+    # print (datetime.strptime(birthdate, '%m-%d-%Y'))
+    user= crud.get_user_by_id(user_id)
+    # print (datetime.strptime(birthdate,"%Y-%m-%d").strftime("%m/%d/%Y"))
+    region_id = user.region_id
+     
+    child = crud.create_child(birthdate= birthdate, user_id=user_id)
+
+    flash(f"Congratulations! You have added a child with a birthdate of {birthdate} to your profile")
+    # children = crud.get_child_by_user(user_id=user_id)
+
+    # for kid in children:
+    return redirect (f"/message_board/{user.region_id}")
 
 
 

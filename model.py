@@ -1,6 +1,6 @@
 """Models for park playdates app"""
 
-from datetime import datetime
+from datetime import datetime, date
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -111,6 +111,7 @@ class Child(db.Model):
     ___tablename__ = "children"
 
     child_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    # child_initial = db.Column(db.String(5), nullable = False)
     birthdate = db.Column(db.DateTime, nullable = False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
 

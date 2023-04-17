@@ -172,7 +172,8 @@ def create_child(birthdate, user_id):
 
     child = Child(birthdate=birthdate, user_id=user_id)
     """create a child"""
-
+    db.session.add(child)
+    db.session.commit()
     return child
 
 
@@ -180,15 +181,32 @@ def get_child_by_user(user_id):
     """get a user's children"""
     
     user_children = db.session.query(Child).filter_by(user_id =user_id).all()
-    
+    # for child in user_children:
+    #     birthdate = birthdate
     return user_children
 
-
 def get_child_by_age(child):
-    child_age= (datetime.now() - child.birthdate)
+    child_id = child.child_id
+    kid= Child.query.get(child)
+
+    birthdate = kid.birthdate
+    child_age= (datetime.now().date - birthdate)
+    return child_age
+# def get_child_age(child):
+#     user_id=db.session.query(User).filter_by(user_id=user_id).first()
+
+#     for child in (get_child_by_user(user_id)):
+#         birthdate = child.birthdate
+#         child_age = (datetime.now().date - birthdate)
+#     return child_age
+
+# def get_child_by_age(child):
+#     child = db.session.query(Child).filter_by(birthdate=birthdate).first()
+#     birthday = child.birthdate
+#     child_age= (datetime.now().date - birthday)
     """get users with children of specified age"""
 # ???
-    return child_age
+    # return child_age
 
 # def get_child_age(child):
 #     user_id = 

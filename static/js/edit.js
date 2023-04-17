@@ -1,0 +1,1 @@
+<a data-toggle="modal" data-target="#editMessage"><span class="glyphicon glyphicon-pencil"></span></a>            

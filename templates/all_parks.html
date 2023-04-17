@@ -20,12 +20,12 @@
   <ul>
     {% for park in parks %}
     <div class="park-info">
-      <li>
+      
         <a href="/parks/{{ park.park_id }}">
          <h2> {{ park.park_name }} </h2>- {{ park.park_address }}
           
         </a>
-      </li>
+      
     </div>
     <br>
     {% endfor %}
