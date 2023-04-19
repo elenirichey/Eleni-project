@@ -1,5 +1,5 @@
 
-<h1>Eleni's hackbright project - Park Playdates</h1>
+<h1>Eleni's Hackbright project - Park Playdates</h1>
 
 Park Playdates is a fullstack web application to facilitate connections between people with young children at local playgrounds. Finding community can be hard in this post-COVID world, especially for busy families with young children. This app aims to foster local connection by making it easier for people to meet and interact with others taking their children to the same playground through regional message boards. It also offers users an easy way to locate nearby parks.
 
