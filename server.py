@@ -124,7 +124,7 @@ def add_new_message_to_homeboard():
     
     return redirect (f"/message_board/{user.region_id}")
 
-# @app.route("/delete_message", methods = ["POST"])
+# TODO: @app.route("/delete_message", methods = ["POST"])
 # def delete_user_message():
 #     message = request.form.get("selected-message")
     #comes from clicking on the delete button in the message - so clicking that button should send the info of the message id
