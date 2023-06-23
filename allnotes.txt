@@ -1,0 +1,2173 @@
+All park playdate notes!
+
+Message board:
+
+<!-- <div class="background">
+  </div> -->
+
+<!-- <h2>Navigation</h2>
+  <ul>
+       
+    <li><a href="/users/{{ user.user_id }}">My Info</a></li>
+  </ul> -->
+
+<!-- <h3>{{ user.email }}</h3></div> -->
+
+<!-- </div> -->
+
+<!-- <div class="little"> -->
+
+<!-- <label for="Input">Birthdate (MM/DD/YY)</label> -->
+
+<!-- <div class="row"> -->
+    <!-- <div class="text-center"> -->
+
+<!-- need to account for region id -->
+
+
+<!-- for region in regions // for message in region -->
+
+<!-- <p>
+    <label for="new-message">Create New Message:</label>
+  </p> -->
+ <!-- <div class="text-area"> -->
+
+<!-- <h3>Delete Message</h3>
+  <form action="/delete_message" method="POST">
+    <p> 
+      <form>
+        <button type="submit">Delete Message</button>
+      </form>
+    </p> -->
+
+<!-- 
+  </form> -->
+
+<!-- region.message --> 
+
+
+Parkmap.html
+<!-- <div class="background"></div> -->
+
+<!--  -->
+    <!-- </section> -->
+  <!-- <section class="map"> -->
+
+<!-- <div class="box"> -->
+  <!-- <div class="row"> -->
+    <!-- <div class="row d-flex justify-content-center"> -->
+    
+
+    <!-- <div class="col-6-md"> -->
+    <!-- <div class="text-center">
+    </div> -->
+  <!-- </div> -->
+<!-- </div>
+</div> -->
+<!-- </div> -->
+  
+
+<!-- </div> -->
+   
+ <!-- </div> -->
+
+Parkmaps.js
+
+// const userZip = document.querySelector('#zipcode').value
+// console.log(userZip)
+
+
+
+
+const userZip = document.querySelector('#zipcode').innerText;
+
+
+const PLACEIDS = new Set();
+const ALLPARKS = [];//or make it a set?
+const keywords = ['playground', 'park'];
+
+
+function initMap() {
+  const geocoder = new google.maps.Geocoder();
+  geocoder.geocode({ address: userZip }, (results, status) => {
+    if (status === 'OK') {
+     
+      const userLocation = results[0].geometry.location;
+      const userLat = results[0].geometry.location.lat();
+      const userLng = results[0].geometry.location.lng();
+      // let latlng = new google.maps.LatLng(userLat, userLng)
+      // console.log(userLat)
+      // console.log(userLng)
+      
+      
+      const map = new google.maps.Map(document.querySelector('#map'), {
+        center: {lat: userLat, lng: userLng},
+        // lat: userLat, lng: userLng
+        zoom: 13
+        // draggable: true,
+        // position: latlng
+      });
+      
+
+      const locale = {'loc': userLocation, 'zipcode': userZip};
+      
+      const parkInfo = new google.maps.InfoWindow();
+      // const requestOptions = {
+      //   method:'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: JSON.stringify(locale)
+      // }
+
+      
+        fetch('/local/parks', {
+          method: 'POST',
+          body: JSON.stringify(locale),
+          headers: {
+            'Content-Type': 'application/json'
+          }    
+        })   
+          .then((response)=> response.json())
+          .then((responseJson) => {
+        // console.log('line 16')
+        for (const park of responseJson) {
+          // console.log(park, 'line 15')
+          if (!PLACEIDS.has(park.place_id)) {
+            ALLPARKS.push(park);
+            PLACEIDS.add(park.place_id);
+            // console.log(ALLPARKS, 'line 62')
+          }
+      }  
+        for (park of ALLPARKS) {
+          // console.log(park, 'line 78')
+          // const photoReference = park.photos.Array(1)['photo_reference']
+          // console.log(photoReference)
+          const parkInfoContent = `
+          <div class="window-content">
+            <div class="park-thumbnail"></div>
+      
+            <ul class="park-info">
+              
+              
+               <b>${park.name}</b>
+              <br>
+              Address: <b>${park.formatted_address}</b>
+            </ul>
+          </div>
+        `;
+        const parkMarker = new google.maps.Marker({
+          position: {
+            lat : park.geometry.location['lat'],
+            lng: park.geometry.location['lng'],
+          },
+          title: `Park Name: ${park.name}`,
+          map, // same as saying map: map
+
+          
+        }); 
+        // console.log(parkMarker, "line 103")
+        parkMarker.addListener('click', () => {
+          parkInfo.close();
+          parkInfo.setContent(parkInfoContent);
+          parkInfo.open(map, parkMarker);
+
+
+        })
+
+        
+        ;
+    } 
+
+
+  
+
+    console.log("line 76")
+   } )
+  }})}
+
+
+  parkdetails.html
+
+  <div class="address">
+
+<h2>{{ park.park_address }}</h2>
+</div>
+<br>
+<br>
+<!-- park hours, park amenities -->
+<div class="container-fluid">
+    <!-- <div class="row"> -->
+    <!-- <div class="text-center"> -->
+      <div class="message-board">
+        <div class="box"><h1 class="h3 mb-3 fw-normal">{{park.park_name}} Messages</h1> </div>
+{% if park.messages %}
+
+
+
+{% for message in park.messages %}
+<br>
+
+<div class="message-box">
+      
+
+    {{park.message.message}}
+    {{ park.message.timestamp }}
+    -- {{ park.message.user.display_name }}
+  <!-- <div class="message-box"> -->
+   </div>   
+{% endfor %}
+{% else %}
+    <h1> No one has posted anything yet!</h1>
+{% endif %}
+</div>
+</div>
+</body>
+</div>
+{% endblock %}
+
+
+
+
+base.css
+html, body {
+  padding-top: 100px;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(186, 242, 187, 0.2);
+    
+    /* background-image: url('/static/images/busy park.jpg') no-repeat center center;
+    background-size: cover; */
+
+}
+
+.map,
+#map {
+    margin: 0 auto;
+    margin-bottom: 20px;
+    width: 60em;
+    height: 40em;
+    position: relative;
+    padding: 20px;
+    padding-bottom: 100px;
+    /* background-color: white;
+    background-image: url('/static/images/genericmap1.jpg'); */
+    /* float: right; */
+}
+
+
+/* .map-bg-image */
+
+/* #treasure-map {
+
+  background-color: white;
+    background-image: url('/static/images/treasuremap.jpeg') ;
+    opacity: 60%; */
+    
+    /* position: ; */
+    /* top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(3px);
+    z-index: -1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+} */
+.parkmap-background{
+  background:rgba(255, 255, 255, 0.2);
+  /* backdrop-filter:blur(50px); */
+  height: 100vh;
+  width: 100vw;
+}
+/* h2 {
+  font-weight:bold;
+} */
+.background{
+  filter:blur(20px);
+}
+
+.map-background{
+  background: url('/static/images/treasuremap.jpeg') no-repeat center center;
+  background-size: cover;
+  /* backdrop-filter: blur(10px); */
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  text-shadow: 3px solid black;
+  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  /* filter: blur(10px); */
+}
+
+/* .map-bg-image{
+  
+
+} */
+
+.navbar{
+  width: 100%;
+}
+/* .navbar{
+  height: 100%;
+  width: 100%;
+  position: top;
+} */
+/* .bg-image {
+    background: url('/static/images/busy park.jpg') no-repeat center center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(20px) grayscale(20%); */
+
+/* }  */
+.my-photo {
+    background: url('/static/images/busy park.jpg') no-repeat center center;
+    background-size: cover;
+    filter: blur(5px) grayscale(20%);
+
+}
+
+body.container {
+    background: url('/static/images/busy park.jpg') no-repeat center center;
+    background-size: cover;
+    filter: blur(100px)
+     grayscale(20%);
+}
+
+.addpark-bg-image {
+  background-color: white;
+    background-image: url('/static/images/addpark.jpg');
+opacity: 50%;
+-webkit-text-stroke: white;
+  -webkit-text-stroke-color: white;
+  -webkit-text-stroke-width: 1px;
+    /* Add the blur effect */
+    /* filter: blur(8px);
+    /* -webkit-filter: blur(8px); */
+  
+    /* Full height */
+    /* height: 100%;
+  
+    /* Center and scale the image nicely */
+    /* background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;  */ 
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(3px);
+    z-index: -1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+a:link{
+  text-decoration: none;
+  color: rgb(30, 9, 138);
+  -webkit-text-stroke: rgb(15, 231, 251);
+    -webkit-text-stroke-color: rgb(8, 245, 249);
+-webkit-text-stroke-width: .5px;
+  font-weight: bolder;
+  font-size: 16pt;
+}
+a:visited {
+  text-decoration: none;
+  color: rgb(33, 73, 16);
+  -webkit-text-stroke: rgb(11, 237, 248);
+  -webkit-text-stroke-color: rgb(11, 243, 247);
+  -webkit-text-stroke-width: .5px;
+font-weight: bolder;
+font-size: 16pt;
+}
+
+.addpark-background{
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  text-shadow: 3px solid black;
+ 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+
+
+}
+
+
+
+/* .map-background{
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  text-shadow: 3px solid black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+
+
+} */
+
+
+.user {
+  text-align: center;
+}
+
+.container{
+text-align: center;
+}
+
+.board-bg-image {
+
+  background-color: white;
+  background-image: url('/static/images/signup.jpg');
+opacity: 50%;
+
+
+  /* Add the blur effect */
+  /* filter: blur(8px);
+  /* -webkit-filter: blur(8px); */
+
+  /* Full height */
+  /* height: 100%;
+
+  /* Center and scale the image nicely */
+  /* background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;  */ 
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  filter: blur(3px);
+  z-index: -1;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
+.board-background {
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  text-shadow: 3px solid black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 100%;
+  padding: 25px;
+  text-align: center;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.home-region-name{
+  background-color: green;
+}
+
+label[for="zipcode"]{
+  color:rgb(42, 96, 43)
+}
+
+/* h1{
+  text-align: center;
+} */
+
+
+.form-addpark {
+  background-color: darkseagreen;
+  width: 100%;
+  max-width: 330px;
+  padding: 25px;
+  margin: auto;
+  border: 1px;
+ 
+  
+}
+
+
+.form-addpark .checkbox {
+  font-weight: 400;
+  /* text-align: center; */
+}
+
+.form-addpark .form-floating:focus-within {
+  z-index: 2;
+  color: rgb(159, 157, 157);
+}
+
+.form-floating{
+color: rgb(161, 157, 157);
+
+}
+
+.form-addpark input[type="text"] {
+  margin-bottom: 10px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  color: rgb(164, 161, 161);
+  /* -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  height: 75px; /*Increase height as required*/
+  /* margin-bottom: 30px;
+  padding: 0 20px; Now only left & right padding */ 
+
+
+}
+ 
+/* .form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  color: rgb(166, 164, 164);
+} */
+
+.box{
+    width: 100%;
+    /* border: 1px solid black; */
+    float: center;
+    text-align: center;
+}
+
+.message-box {
+  width: 100%;
+  height:100%;
+    border: 1px solid black;
+    float: center;
+   
+    margin-bottom: 3px;
+    background-color:rgb(220, 235, 220);
+
+}
+.park-info{
+width: 100%;
+margin-bottom: 5px;
+text-align: center;
+color:rgb(4, 33, 121);
+height: auto;
+width: auto;
+}
+
+.parks-bg-image{
+  background-color: white;
+  background-image: url('/static/images/park.jpg');
+  opacity: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  filter: blur(3px);
+  z-index: -1;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+.parks-background {
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  text-shadow: 3px solid black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.each-bg-image{
+  background-color: white;
+  background-image: url('/static/images/parkdetails.jpg');
+  opacity: 50%;
+  position: absolute;
+  
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(3px);
+    z-index: -1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+.park-background{
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  text-shadow: 3px solid black;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 100%;
+  padding: 25px;
+  text-align: center;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+
+}
+
+
+
+.box-create{
+    width: 100%;
+    border: 1px solid black;
+    float: right;
+    background-color: darkseagreen;
+}
+
+.col-3 {
+  width: 25%;
+    border: 1px solid black;
+    margin: 1px;
+    /* display: flex; */
+    /* justify-content: center;
+    align-items: center; */
+    padding:10px;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: auto;
+    text-align: center;
+    vertical-align: center;
+    
+    /* word-wrap: break-word; */
+    background-color:rgb(231, 250, 231)
+}
+
+.box-login{
+    width: 100%;
+    border: 1px solid black;
+    float: left;
+    color:rgb(55, 4, 81);
+    background-color: darkseagreen;
+}
+
+.message-board{
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid black;
+    padding: 15px;
+  margin: auto;
+    background-color: rgb(220, 235, 220);
+}
+
+.add-message{
+    width: 100%;
+    max-width:500px;
+    border: 1px solid black;
+    padding: 15px;
+  margin: auto;
+  
+    background-color: darkseagreen;
+
+
+}
+.small-box{
+  font-size: small;
+  /* width:100%; */
+  max-width: 200px;
+  /* float: right; */
+  margin:5px;
+  padding: 5px;
+  width: 25%;
+    border: 1px solid black;
+    margin: 0;
+    left: 0;
+    height: auto;
+    /* max-height:10px; */
+    width: auto;
+    text-align: center;
+  /* line-height: 10px; */
+  background-color:rgb(231, 250, 231)
+
+}
+.little{
+  width: 100%;
+  float:right;
+  max-width: 200px;
+}
+
+.new-message{
+  width:100%;
+  height:100%;
+  max-width:500px;
+
+}
+
+#new-message{
+  width:100%;
+  width:100%;
+  height:100%;
+  max-width:500px;
+  max-height: 300px;
+  
+}
+
+.left {
+  padding-bottom: 5px;
+
+}
+
+h1 {
+  -webkit-text-stroke: white;
+  -webkit-text-stroke-color: white;
+  -webkit-text-stroke-width: .5px;;
+  font-weight: bold;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: rgb(55, 4, 81);
+}
+
+h2 {
+  -webkit-text-stroke: white;
+  -webkit-text-stroke-color: white;
+  -webkit-text-stroke-width: .5px;;
+  font-weight: bold;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: rgb(55, 4, 81);
+}
+/* .child-display{
+  font-size: 10pt;
+} */
+/* 
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+  
+  nav {
+    display: flex;
+    background: rgb(88, 89, 91);
+  }
+  
+  nav p,
+  nav a,
+  nav button {
+    display: inline-block;
+    color: white;
+    padding: 0;
+    margin: 0.5em;
+    font-size: 1em;
+    font-family: inherit;
+  }
+  
+  nav a,
+  nav button {
+    background: transparent;
+    background: transparent;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid white;
+    text-decoration: none;
+  }
+  
+  nav a:hover,
+  nav button:hover {
+    cursor: pointer;
+    border-bottom: 0;
+    color: yellow;
+  }
+  
+  #links-right {
+    margin-left: auto; */
+  /* }
+   */
+
+   /* .child-display{
+  font-size: 10pt;
+} */
+/* 
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+  
+  nav {
+    display: flex;
+    background: rgb(88, 89, 91);
+  }
+  
+  nav p,
+  nav a,
+  nav button {
+    display: inline-block;
+    color: white;
+    padding: 0;
+    margin: 0.5em;
+    font-size: 1em;
+    font-family: inherit;
+  }
+  
+  nav a,
+  nav button {
+    background: transparent;
+    background: transparent;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid white;
+    text-decoration: none;
+  }
+  
+  nav a:hover,
+  nav button:hover {
+    cursor: pointer;
+    border-bottom: 0;
+    color: yellow;
+  }
+  
+  #links-right {
+    margin-left: auto; */
+  /* }
+   */
+
+
+   signup.html
+
+
+   <!-- <div class="col-3">
+      <div class="box-create"> -->
+
+       <!-- <p>
+        Email <input type="text" name="email">
+      </p> -->
+
+      <!-- <p>
+        Password <input type="password" name="password">
+      </p> -->
+
+       <!-- <p>
+        Display Name <input type="text" name="display_name">
+      </p> -->
+    
+    <!-- <p>
+        Zipcode <input type="text" name="zipcode">
+      </p> -->
+
+
+
+      CRUD
+
+      """CRUD operations"""
+
+from model import db, Region, User, Park, Zipcode, Child, Message, connect_to_db
+
+from datetime import datetime
+
+def create_region(region_name, state):
+    """create a region"""
+    region = Region(region_name=region_name, state=state)
+    db.session.add(region)
+    db.session.commit()
+    return region
+#add zip to region??
+
+def get_regions():
+    """return all regions"""
+    return Region.query.all()
+
+
+def return_all_zipcodes():
+    zip_set = set()
+    zips = Zipcode.query.all()
+    for z in zips:
+        zip_set.add(z.zipcode)
+    return zip_set
+
+def all_parknames_by_region(region):
+    park_names = []
+    parks = db.session.query(Park).filter_by(region_id=region).all()
+    for park in parks:
+        park_names.append(park.park_name)
+    return park_names
+
+def get_regions_by_state(state):
+    """return all regions by state"""
+    regions_by_state = db.session.query(Region).filter_by(state = state)
+    return regions_by_state
+
+# get regions by zipcode? within ____ miles? //get zipcodes in region
+def get_region_by_zipcode(zipcode):
+    region_by_zip = db.session.query(Zipcode).filter_by(zipcode=zipcode).first()
+    if region_by_zip:
+        return region_by_zip.region_id
+        # return region_by_zip.region_id #or region.name?
+    # .filter_by(zipcodes = zipcode)
+    
+#pass as a region id in create user function
+#before creating user, run function get region by zipcode and get region id and create user with this region id
+
+
+def create_user(email, password, display_name, zipcode):
+    """create a user"""
+    # if zipcode:
+    region_id = get_region_by_zipcode(zipcode)
+    # else:
+    #     zipcode=create_zipcode(zipcode, region_id)
+    # print(region_id)
+    if region_id:
+        user = User(email=email, password=password, display_name=display_name, region_id=region_id)
+        db.session.add(user)
+        db.session.commit()
+
+    # else: 
+    #     zipcode_info = f'https://www.zipcodeapi.com/rest/fuRLOSEI0hS9FnSFYExsRgXqXqxXJsSI5uRuN9GA2mJCcwQqTe06YCVkc87N2sQZ/info.json/{zipcode}/degrees'
+    #     # city = zipcode_info['city']
+    #     city = zipcode_info['city']
+    #     state = zipcode_info['state'] 
+
+    #     new_region = create_region(region_name = city, state = state)
+    #     region_id= new_region.region_id
+
+    return user
+
+def get_users():
+    """Return all users."""
+
+    return User.query.all()
+
+
+def get_user_by_id(user_id):
+    """Return a user by primary key."""
+
+    return User.query.get(user_id)
+
+
+# def get_user_display_by_id(user_id):
+#     return
+
+
+
+def get_user_by_email(email):
+    """Return a user by email."""
+
+    return User.query.filter(User.email == email).first()
+
+
+def get_users_by_region(region_id):
+    """get all users in region"""
+    #return User.query.all(where region =)
+    users_in_region = db.session.query(User).filter_by(region_id = region_id)
+    return users_in_region
+# get all users with/by zipcode?
+#get user's children
+#get users with children of a specified age
+
+def get_user_region(user):
+    """get a user's region"""
+    
+    return user.region_id
+
+
+#crud add park to db?
+
+
+def create_park(park_name, park_address, latitude, longitude, region_id):
+    """create a park"""
+
+    # print(park_name, park_address, latitude, longitude, region_id, 'line 98')
+    park=Park(park_name=park_name, park_address=park_address, latitude=latitude, longitude=longitude, region_id=region_id)
+    print(park, 'lin')
+    db.session.add(park)
+    db.session.commit()
+    # print(park.park_id, 'line 100')
+    return park
+
+
+def get_all_parks_by_region(region_id):
+    """get all parks in a region"""
+    parks_in_region = db.session.query(Park).filter_by(region_id = Park.region_id).all()
+    return parks_in_region
+
+# ORDER BY
+    # return Park.query.all() #where park zipcode in zip_in_region
+#get all parks by zipcode? by region?
+#get all parks by message ie have a message abt them? by playgroup? by users?
+#is that necessary if we have it by region ie message boards
+
+
+def get_park_by_id(park_id):
+    "return a park by park id"
+    return Park.query.get(park_id)
+
+def create_zipcode(zipcode, region_id):
+   """create a zipcode"""
+
+   zipcode = Zipcode(zipcode=zipcode, region_id=region_id)
+
+   db.session.add(zipcode)
+   db.session.commit()
+
+   return zipcode
+
+
+def get_zipcode_by_region(region_id):
+    """get all zipcodes in region"""
+    # return Zipcode.query.all()#where zipcode in zip_in_region
+
+    zips_in_region = db.session.query(Zipcode).filter_by(region_id = region_id)
+    return zips_in_region
+#get zipcode by region
+
+#if zipcode in Region.zipcodes #Region.region_id.zipcodes?
+
+def zip_in_database(zipcode):
+#    if db.session.query(Zipcode).filter_by(zipcode=zipcode):
+#     return True
+    zip =  db.session.query(Zipcode).filter_by(zipcode=zipcode).first()
+    return zip
+
+
+def create_child(birthdate, user_id):
+
+    child = Child(birthdate=birthdate, user_id=user_id)
+    """create a child"""
+    db.session.add(child)
+    db.session.commit()
+    return child
+
+
+def get_child_by_user(user_id):
+    """get a user's children"""
+    
+    user_children = db.session.query(Child).filter_by(user_id =user_id).all()
+    # for child in user_children:
+    #     birthdate = birthdate
+    return user_children
+
+def get_child_by_age(child):
+    child_id = child.child_id
+    kid= Child.query.get(child)
+
+    birthdate = kid.birthdate
+    child_age= (datetime.now().date - birthdate)
+    return child_age
+# def get_child_age(child):
+#     user_id=db.session.query(User).filter_by(user_id=user_id).first()
+
+#     for child in (get_child_by_user(user_id)):
+#         birthdate = child.birthdate
+#         child_age = (datetime.now().date - birthdate)
+#     return child_age
+
+# def get_child_by_age(child):
+#     child = db.session.query(Child).filter_by(birthdate=birthdate).first()
+#     birthday = child.birthdate
+#     child_age= (datetime.now().date - birthday)
+    """get users with children of specified age"""
+# ???
+    # return child_age
+
+# def get_child_age(child):
+#     user_id = 
+#     user_children = db.session.query(Child).filter_by(user_id =user_id)
+
+
+
+def create_message(timestamp, user_id, park_id, region_id, message):
+    "create a message"
+#how do i signal that the parkid is optional?
+    message = Message(timestamp=timestamp, user_id=user_id, park_id=park_id, region_id=region_id, message=message)
+    db.session.add(message)
+    db.session.commit()
+    return message
+
+
+def get_message_by_user(user_id):
+    """get all messages by a certain user"""
+    user_messages = db.session.query(Message).filter_by(user_id = user_id)
+
+    return user_messages
+
+
+def get_message_by_region(region_id):
+    """THIS IS HOW TO CREATE MESSAGE BOARDS""" 
+    #should i call it create_message_board? message_board # region.messages?
+
+    homeboard = db.session.query(Message).filter_by(region_id = region_id).all()
+    return homeboard
+
+
+
+def get_message_by_park_id(park_id):
+    """get all posts referencing a specific park(id)"""
+    park_messages = db.session.query(Message).filter_by(park_id = Park.park_id)
+    return park_messages
+
+#get message by day? to look for playdates in area on specific day? idk
+
+
+
+
+if __name__ == "__main__":
+    from server import app
+
+    connect_to_db(app)
+
+
+
+    server.py
+
+
+from flask import Flask, render_template, request, flash, session, redirect, jsonify
+from model import connect_to_db, db
+import crud
+from sqlalchemy import cast, Date
+from datetime import datetime, date
+
+from jinja2 import StrictUndefined
+import requests
+from pprint import pprint
+
+
+app = Flask(__name__)
+app.secret_key = "dev"
+app.jinja_env.undefined = StrictUndefined
+
+
+@app.route("/")
+def homepage():
+    """View homepage."""
+    # user = crud.get_user_by_email(session['email'])
+    return render_template("homepage.html")
+
+
+@app.route("/all_users")
+def all_users():
+    """View all users."""
+
+    users = crud.get_users()
+
+    return render_template("all_users.html", users=users)
+
+# @app.route("/parks")
+
+
+@app.route("/users", methods=["POST"])
+def register_user():
+    """Create a new user."""
+
+    email = request.form.get("email")
+    password = request.form.get("password")
+    display_name = request.form.get("display_name")
+    zipcode = request.form.get("zipcode")
+    print(zipcode)
+    zipp = crud.zip_in_database(zipcode)
+    print(zipp)
+
+    if not zipp:
+
+        zipcode_info = requests.get(f'https://www.zipcodeapi.com/rest/WDYLG229vLjY9yvVfANO5TACiqVVZbT1ADaOhjnSKNFQWUNKebQbBatoIJbaQAra/info.json/{zipcode}/degrees', verify=False).json()
+
+        city = zipcode_info['city']
+        state = zipcode_info['state'] 
+        url_city = city.replace(' ', '+')
+
+        new_region = crud.create_region(region_name = city, state = state) # return your newly created region object from your db <Region>
+        # new_zipcode = Zipcode(zipcode=userLocation, region=new_region)
+
+        zipcodes_in_city = requests.get(f'https://www.zipcodeapi.com/rest/fuRLOSEI0hS9FnSFYExsRgXqXqxXJsSI5uRuN9GA2mJCcwQqTe06YCVkc87N2sQZ/city-zips.json/{url_city}/{state}').json()
+        for zipp in zipcodes_in_city:
+            zipcode = crud.create_zipcode(zipp, new_region.region_id)
+        # new_region = crud.create_region(region_name = city, state = state)
+    else:
+        region_id= crud.get_region_by_zipcode(zipcode)
+
+    user = crud.get_user_by_email(email)
+
+    if user:
+        flash("Cannot create an account with that email. Try again.")
+    else:
+        user = crud.create_user(email, password, display_name, zipcode)
+        db.session.add(user)
+        db.session.commit()
+        flash("Account created! Please log in.")
+
+    return redirect("/")
+
+
+
+@app.route("/message_board")
+
+
+
+@app.route("/message_board/<region_id>")
+def show_homeboard(region_id):
+    while session:
+    # user=session.get("")
+
+        display_name=session.get("name")
+
+        region_id = session.get("region_id")
+
+
+        # print(session['zipcode'])
+        # region_id = crud.get_region_by_zipcode(zipcode)
+        # crud.create_Message(datetime.now(), 1, None, 1, "hello there")
+        homeboard = crud.get_message_by_region(region_id)
+        has_messages = len(homeboard)
+
+        user = crud.get_user_by_email(session['email'])
+        user_id =session.get("user_id")
+        children = crud.get_child_by_user(user_id)
+
+        # for child in children:
+        #     age = crud.get_child_by_age(child)
+
+        return render_template("message_board.html", homeboard=homeboard, user=user, has_messages=has_messages, children=children)
+    
+    else:
+        return redirect("/")
+
+
+@app.route("/new_message", methods = ["POST"])
+def add_new_message_to_homeboard():
+
+   
+    user = crud.get_user_by_email(session['email'])
+
+    message = request.form.get("new-message")
+    user_id = user.user_id
+    park_id = None
+    # request.form.get("park_id")
+    region_id = user.region_id
+    
+
+    new_message = crud.create_message(timestamp=(datetime.now()).strftime("%Y-%m-%d %H:%M:%S"), user_id=user_id, park_id = park_id, region_id = region_id, message = message)
+    
+    
+    return redirect (f"/message_board/{user.region_id}")
+
+# @app.route("/delete_message", methods = ["POST"])
+# def delete_user_message():
+#     message = request.form.get("selected-message")
+    #comes from clicking on the delete button in the message - so clicking that button should send the info of the message id
+
+
+@app.route("/users/<user_id>")
+def show_user(user_id):
+    """Show details on a particular user."""
+    user_id = session.get("user_id")
+    user = crud.get_user_by_id(user_id)
+    messages = crud.get_message_by_user(user_id)
+    user_children = crud.get_child_by_user(user_id)
+
+    return render_template("user_details.html", user=user, user_id=user_id, messages=messages, user_children=user_children)
+
+@app.route("/users/<user_id>/children")
+def show_user_children(user_id):
+    user_id=session.get("user_id")
+    user = crud.get_user_by_id(user_id)
+    user_children = crud.get_child_by_user(user_id)
+    for child in user_children:
+        child_age = crud.get_child_by_age(child)
+        return child_age
+
+
+
+@app.route("/users/<region_id>")
+def show_users(region_id):
+    """show all users in particular region"""
+
+    users_in_region = crud.get_users_by_region(region_id)
+
+    return render_template("users_in_region.html", users = users_in_region)
+
+
+#get first region id by zipcode and create user with region id
+
+@app.route("/login", methods=["POST"])
+def process_login():
+    """Process user login."""
+
+    email = request.form.get("email")
+    password = request.form.get("password")
+    display_name = request.form.get("display_name")
+
+
+    user = crud.get_user_by_email(email)
+    # print (user)
+    if not user:
+        flash("No such email address")
+        return redirect("/")
+    if user.password != password:
+        flash("incorrect password")
+        return redirect("/")
+    
+
+
+        # Log in user by storing the user's email in session
+        # session["user"] = user
+    session["logged_in"] = True
+    session["email"] = user.email
+    session["name"] = user.display_name
+    session["region_id"] = user.region_id
+    session["user_id"] = user.user_id
+   
+        
+    flash(f"Welcome back, {user.display_name} ({user.email})!")
+    print(session)
+    return redirect(f"/message_board/{user.region_id}")
+
+@app.route("/logout")
+def process_logout():
+    """Log user out."""
+    
+    
+    del session["email"]
+    del session["name"]
+    del session["region_id"]
+    del session["user_id"]
+    del session["logged_in"]
+    
+    # session.pop('user', None) ???
+
+    flash(f"Logged out.")
+    return redirect("/")
+
+@app.route("/map/parkmap", methods = ["POST"])
+def view_parkmap():
+
+    zipcode = request.form.get('zipcode')
+#maybe eventually i can add the zipcodes in radius feature??
+
+    return render_template("parkmap.html", zipcode=zipcode)
+
+
+@app.route("/add_child", methods=["POST"])
+def add_child():
+    user_id=session.get("user_id")
+    # birthdate = (cast(request.form.get("birthdate"), Date))
+    birthdate= request.form.get("birthdate")
+    
+    # print (datetime.strptime(birthdate, '%m-%d-%Y'))
+    user= crud.get_user_by_id(user_id)
+    # print (datetime.strptime(birthdate,"%Y-%m-%d").strftime("%m/%d/%Y"))
+    region_id = user.region_id
+     
+    child = crud.create_child(birthdate= birthdate, user_id=user_id)
+
+    flash(f"Congratulations! You have added a child with a birthdate of {birthdate} to your profile")
+    # children = crud.get_child_by_user(user_id=user_id)
+
+    # for kid in children:
+    return redirect (f"/message_board/{user.region_id}")
+
+
+
+@app.route("/local/parks", methods=["POST"])
+def google():
+    userLocation = request.json.get('loc')
+    zipcode = str(request.json.get('zipcode'))
+    print(userLocation, 'line 195')
+    print(zipcode, 'line 196')
+    #maybe eventually i can add the zipcodes in radius feature??
+    lat=userLocation['lat']
+    lng=userLocation['lng']
+    #Dynanmic so you can put variables in string
+    # url = f'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={lat}%2C{lng}&radius=7500&type=park&keyword={keyword}&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
+    # url = f'https://maps.googleapis.com/maps/api/place/textsearch/json?query=playground+{lat}+{lng}&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
+    # url = f'https://maps.googleapis.com/maps/api/place/textsearch/json?query={keyword}&location={lat},{lng}&radius=10&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
+    url_parks = f'https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&location={lat},{lng}&radius=100&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
+    url_playgrounds = f'https://maps.googleapis.com/maps/api/place/textsearch/json?query=playground&location={lat},{lng}&radius=100&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
+    
+    park_data = requests.get(url_parks).json()
+    playground_data = requests.get(url_playgrounds).json()
+
+    data = park_data['results']
+    data.extend(playground_data['results'])
+
+    zipp = crud.zip_in_database(zipcode)
+    region_id = 0
+
+    if not zipp:
+
+        zipcode_info = requests.get(f'https://www.zipcodeapi.com/rest/WDYLG229vLjY9yvVfANO5TACiqVVZbT1ADaOhjnSKNFQWUNKebQbBatoIJbaQAra/info.json/{zipcode}/degrees', verify=False).json()
+
+        city = zipcode_info['city']
+        state = zipcode_info['state'] 
+        url_city = city.replace(' ', '+')
+
+        new_region = crud.create_region(region_name = city, state = state) # return your newly created region object from your db <Region>
+        # new_zipcode = Zipcode(zipcode=userLocation, region=new_region)
+        region_id =  new_region.region_id
+
+        zipcodes_in_city = requests.get(f'https://www.zipcodeapi.com/rest/fuRLOSEI0hS9FnSFYExsRgXqXqxXJsSI5uRuN9GA2mJCcwQqTe06YCVkc87N2sQZ/city-zips.json/{url_city}/{state}').json()
+        
+        for zipp in zipcodes_in_city:
+            zipcode = crud.create_zipcode(zipp, new_region.region_id)
+
+    else:
+        region_id = zipp.region_id
+    # if not region_id:
+        #     city = data[0]['formatted_address'].split(',')[-3].strip(" ")
+        #     state = data[0]['formatted_address'].split(',')[-2][1:3]
+        # regioN = crud.get_regions_by_state(state, city) # endregion
+        #     if region:
+        #         region_id = region.region_id
+        #     else:
+        #         new_reg = crud.create_region(city, state)
+        #         new_zip = crud.create_zipcode(zipcode, new_reg.region_id)
+        #         region_id = new_zip.region_id
+
+    all_park_names = set(crud.all_parknames_by_region(region_id))
+    all_zipcodes = crud.return_all_zipcodes()
+
+    for park in data:
+        park_name = park['name']
+        park_address = park['formatted_address']
+        longitude = float(park['geometry']['location']['lng'])
+        latitude = float(park['geometry']['location']['lat'])      
+        # hours=park['opening_hours']
+        #park_hours? park amenities? should i add them to my model as optional?
+        if park_name not in all_park_names:
+            crud.create_park(park_name=park_name, park_address = park_address, latitude = latitude, longitude=longitude, region_id=region_id )
+#can i combine two calls for the data?? to get both park and playground?
+#or to use both my db data and google data? do i need to jsonify the data before the loop?
+    return jsonify(data)
+# once its in db i cld query db for it
+
+    # print(data)
+#     for park in data['results']:
+#         park_name = park['name']
+#         # park_address = park['vicinity']
+#         park_address = park['formatted_address']
+#         longitude = float(park['geometry']['location']['lng'])
+#         latitude = float(park['geometry']['location']['lat'])
+#         region_id = crud.get_region_by_zipcode(zipcode)
+#         print(region_id, 'line 211')
+#         # hours=park['opening_hours']
+#         #park_hours? park amenities? should i add them to my model as optional?
+#         if park not in crud.get_all_parks_by_region(region_id):
+#             crud.create_park(park_name=park_name, park_address = park_address, latitude = latitude, longitude=longitude, region_id=region_id )
+# #can i combine two calls for the data?? to get both park and playground?
+# #or to use both my db data and google data? do i need to jsonify the data before the loop?
+#     return jsonify(data['results'])
+# once its in db i cld query db for it
+
+
+@app.route("/new_region", methods=["POST"])
+def new_region():
+    # userLocation=request.json.get('loc')
+
+    # lat=userLocation['lat']
+    # lng=userLocation['lng']
+
+    zipcode = request.form.get('zipcode')
+
+    # location = f'https://maps.googleapis.com/maps/api/geocode/json?address={zipcode}&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
+
+
+    # zipcode_radius = f'https://www.zipcodeapi.com/rest/fuRLOSEI0hS9FnSFYExsRgXqXqxXJsSI5uRuN9GA2mJCcwQqTe06YCVkc87N2sQZ/radius.json/{zipcode}/5/mile'
+    if not crud.zip_in_database(zipcode):
+        zipcode_info = f'https://www.zipcodeapi.com/rest/fuRLOSEI0hS9FnSFYExsRgXqXqxXJsSI5uRuN9GA2mJCcwQqTe06YCVkc87N2sQZ/info.json/{zipcode}/degrees'
+
+        city = zipcode_info['city']
+        state = zipcode_info['state']
+
+# create a region for city, state if one doesn't already exist
+        new_region = crud.create_region(region_name = city, state = state) # return your newly created region object from your db <Region>
+# new_zipcode = Zipcode(zipcode=userLocation, region=new_region)
+#maybe eventually i can add the 'zipcodes in radius" feature??
+
+        zipcodes_in_city = f'https://www.zipcodeapi.com/rest/fuRLOSEI0hS9FnSFYExsRgXqXqxXJsSI5uRuN9GA2mJCcwQqTe06YCVkc87N2sQZ/city-zips.json/{city}/{state}'
+        for zip in zipcodes_in_city:
+            zipcode = crud.create_zipcode(zip, new_region.region_id)
+
+#create region using city, then take zipcode user input and create zipcode
+#new_region = crud.create_region(city, state)
+#zipcode = crud.create_zipcode(zipcode, region_id)
+
+
+@app.route("/parks")
+def parks_in_region():
+    if session:
+        region_id = session['region_id']
+        # print(region_id)
+        parks = crud.get_all_parks_by_region(region_id)
+
+        return render_template("all_parks.html", parks = parks)
+    #     # email = request.form.get("email")
+    #     # user = crud.get_user_by_email(email)
+    #     # region_id = crud.get_user_region(user)
+    #     parks = []
+
+    #     for park in crud.get_all_parks_by_region(region_id):
+    #             parks.append({
+    #             "id": park.park_id,
+    #             "park name": park.park_name,
+    #             "address": park.park_address,   
+    # #add all messages by park?
+    # #be able to click on park and take to a park page?
+    #         }) 
+    #     return parks
+    else:
+        return redirect("/")
+@app.route("/parks/<park_id>")
+def show_park_info(park_id):
+#need event listener for click on park link?
+    park = crud.get_park_by_id(park_id)
+    
+    return render_template("park_details.html", park = park)
+
+@app.route("/signup")
+def sign_up():
+    return render_template("signup.html")
+
+@app.route("/add_park")
+def view_add_park():
+
+    return render_template("add_park.html")
+
+@app.route("/new_park", methods = ["GET", "POST"])
+def process_add_park():
+    park_name = request.form.get("park_name")
+    park_address = request.form.get("park_address")
+    zipcode = request.form.get("park_zipcode")
+    zipcode_info = requests.get(f'https://www.zipcodeapi.com/rest/WDYLG229vLjY9yvVfANO5TACiqVVZbT1ADaOhjnSKNFQWUNKebQbBatoIJbaQAra/info.json/{zipcode}/degrees', verify=False).json()
+    latitude = zipcode_info['lat']
+    longitude = zipcode_info['lng']
+    # request.json.get - api request c
+    # all api request for that address
+    # latitude = 
+    # longitude = 
+    region_id = crud.get_region_by_zipcode(zipcode)
+ # address city/state/etc
+#  https://maps.googleapis.com/maps/api/geocode/json?address={zipcode}&key=AIzaSyCBAi6UglC70WempK9I8qLUHiHKkNuWBy0'
+    crud.create_park(park_name = park_name, park_address = park_address, latitude = latitude, longitude = longitude, region_id=region_id ) #zipcode=zipcode
+   #don't know park address? enter info you have and we will look it up?
+    flash(f"Success! you have added {park_name} at {park_address} to our list of parks!")
+    
+    return redirect ("/all_parks")#render_template ("add_park.html", park_name = park_name, park_address = park_address, park_zipcode = zipcode) #return redirect ("/all_parks") - update all parks
+   
+#    methods = ["GET", "POST"]
+connect_to_db(app)
+app.run()
+host="0.0.0.0",
+use_reloader=True,
+use_debugger=True,
+
+if __name__ == "__main__":
+    from server import app
+
+    connect_to_db(app)
+    print("connected to database")
+
+
+
+    homepage.html
+
+    {% extends 'base.html' %}
+
+{% block title %} Playdates {% endblock %}
+{% block head %}<link href="/static/css/signin.css" rel="stylesheet">
+<br>
+<br>
+
+
+{% endblock %}
+{% block body %}
+
+
+<div class="container">
+  <!-- <div class="background">
+  </div> -->
+
+<body class="signup-background">
+  <br>
+  <br>
+  <br>
+  <br>
+  
+  <h1>Welcome to Park Playdates!</h1>
+  <section class="bg-image">
+ </section>
+<br> 
+<br>
+<div class="row">
+<div class="flash-msg"></div></div>
+<br>
+
+<div class="container">
+<div class="login">
+      <main class="form-signin">
+        <form action="/login" method="POST">
+          <!-- <img class="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> -->
+          <h2 class="mb-3 fw-bold">Please sign in</h2>
+      
+          <div class="form-floating">
+            <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+            <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+            <label for="floatingPassword">Password</label>
+          </div>
+          <p>
+            <input type="submit">
+          </p>
+        </form>
+      </main>
+    </div>
+
+      <section
+      class="signup">
+      <section id="signup">
+        <div class="active"><a href="/signup">Need To Create An Account?</a></div>
+      </section>
+    </div>
+
+<!-- <main class="form-signup">
+
+
+<h2>Create an Account</h2>
+<form action="/users" method="POST">
+  <div class="form-floating">
+    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+    <label for="floatingInput">Email address</label>
+  </div>
+
+
+
+  <div class="form-floating">
+    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+    <label for="floatingPassword">Password</label>
+  </div>
+
+  <div class="form-floating">
+    <input type="text" class="form-control" id="floatingDisplayName" placeholder="Name" name="display_name">
+    <label for="floatingDisplayName">Display Name</label>
+  </div>
+  
+
+  <div class="form-floating">
+    <input type="text" class="form-control" id="zipcode" placeholder="zipcode" name="zipcode">
+    <label for="floatingZipcode"> Zipcode</label>
+  </div>
+
+  <p>
+    <input type="submit">
+  </p>
+</form>
+</main> -->
+
+</section>
+</body>
+</div>
+
+
+{% endblock %}
+
+<!-- <main class="form-signup">
+
+
+<h2>Create an Account</h2>
+<form action="/users" method="POST">
+  <div class="form-floating">
+    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email">
+    <label for="floatingInput">Email address</label>
+  </div>
+
+
+
+  <div class="form-floating">
+    <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password">
+    <label for="floatingPassword">Password</label>
+  </div>
+
+  <div class="form-floating">
+    <input type="text" class="form-control" id="floatingDisplayName" placeholder="Name" name="display_name">
+    <label for="floatingDisplayName">Display Name</label>
+  </div>
+  
+
+  <div class="form-floating">
+    <input type="text" class="form-control" id="zipcode" placeholder="zipcode" name="zipcode">
+    <label for="floatingZipcode"> Zipcode</label>
+  </div>
+
+  <p>
+    <input type="submit">
+  </p>
+</form>
+</main> -->
+
+
+
+signin.css
+
+html,
+body {
+  height: 100%;
+  width:100%;
+  background-image: url('/static/images/busy park.jpg') no-repeat center center;
+  background-size: cover;
+  backdrop-filter: blur(5px) grayscale(20%);
+}
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-image: url('/static/images/busy park.jpg') no-repeat center center;
+  background-size: cover;
+  backdrop-filter: blur(5px);
+}
+
+
+
+.bg-image {
+  background-color: white;
+    background-image: url('/static/images/busy park.jpg');
+opacity: 50%;
+    /* Add the blur effect */
+    /* filter: blur(8px);
+    /* -webkit-filter: blur(8px); */
+  
+    /* Full height */
+    /* height: 100%;
+  
+    /* Center and scale the image nicely */
+    /* background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;  */ 
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(3px);
+    z-index: -1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+
+}
+
+.text-center{
+background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  /* -webkit-text-shadow: 1px black; */
+  border: 3px solid #f1f1f1;
+  /* text-shadow:
+		-1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000; */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.signup-background{
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  text-shadow: 3px solid black;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  
+
+}
+
+
+
+a:link{
+  text-decoration: none;
+  color: rgb(30, 9, 138);
+  -webkit-text-stroke: rgb(8, 220, 248);
+  -webkit-text-stroke-color: rgb(5, 243, 251);
+  -webkit-text-stroke-width: .5px;
+  font-weight: bold;
+  font-size: 14pt;
+}
+a:visited {
+  text-decoration: none;
+  color: rgb(33, 73, 16);
+  -webkit-text-stroke: rgb(8, 214, 241);
+  -webkit-text-stroke-color: rgb(7, 244, 248);
+  -webkit-text-stroke-width: .5px;
+  font-weight: bold;
+  font-size: 14pt;
+}
+
+
+/* .bg-text{
+    background-color: rgb(0,0,0); Fallback color
+  background-color: rgba(0,0,0, 0.4); Black w/opacity/see-through */
+  /* color: white;
+  font-weight: bold;
+  border: 3px solid #f1f1f1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 80%;
+  padding: 20px;
+  text-align: center;
+
+
+} */
+
+.h1{
+  color:black;
+  font-weight:bold;
+  -webkit-text-stroke: white;
+-webkit-text-stroke-color: white;
+-webkit-text-stroke-width: .5px;
+font:bold;
+
+}
+
+.form-signin {
+    background-color: darkseagreen;
+    width: 100%;
+    max-width: 330px;
+    padding: 20px;
+    margin: auto;
+    border: 1px;
+   
+    
+  }
+  
+  .form-signin .checkbox {
+    font-weight: 400;
+  }
+  
+  .form-signin .form-floating:focus-within {
+    z-index: 2;
+    color: rgb(159, 157, 157);
+  }
+  
+.form-floating{
+color: rgb(161, 157, 157);
+
+}
+
+  .form-signin input[type="email"] {
+    margin-bottom: 10px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    color: rgb(164, 161, 161);
+    /* -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 75px; /*Increase height as required*/
+    /* margin-bottom: 30px;
+    padding: 0 20px; Now only left & right padding */ 
+ 
+
+  }
+   
+  .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    color: rgb(166, 164, 164);
+  }
+  /*
+  .form-signin {
+   
+      width: 100%;
+      max-width: 330px;
+      padding: 15px;
+      margin: auto;
+    } */
+    
+    /* .form-signin .checkbox {
+      font-weight: 400;
+    }
+    
+    .form-signin .form-floating:focus-within {
+      z-index: 2;
+    }
+    
+    .form-signin input[type="email"] {
+      margin-bottom: -1px;
+      border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    
+    .form-signin input[type="password"] {
+      margin-bottom: 10px;
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    } */
+
+
+   
+.flash-msg {
+  
+  text-align: center;
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+}
+
+.form-signup {
+  width: 100%;
+  max-width: 330px;
+  padding: 20px;
+  margin: auto;
+  background-color: darkseagreen;
+  
+}
+
+.form-signup .checkbox {
+  font-weight: 400;
+}
+
+.form-signup .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signup input[type="email"] {
+  margin-bottom: 10px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signup input[type="text"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.form-signup input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+/* .form-signup {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+  } */
+  
+  /* .form-signup .checkbox {
+    font-weight: 400;
+  }
+   */
+  /* .form-signup .form-floating:focus-within {
+    z-index: 2;
+  } */
+  
+  /* .form-signup input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  } */
+  
+  /* .form-signup input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  } */
+
+  .signup-bg-image {
+    background-image: url('/static/images/messageboard.jpg');
+opacity: 50%;
+    /* Add the blur effect */
+    /* filter: blur(8px);
+    /* -webkit-filter: blur(8px); */
+  
+    /* Full height */
+    /* height: 100%;
+  
+    /* Center and scale the image nicely */
+    /* background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;  */ 
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: blur(3px);
+    z-index: -1;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+
+
+add_park.html
+
+{% extends 'base.html' %}
+
+
+{% block title %}Add Park{% endblock %}
+{% block head %}
+<br>
+<br>
+
+
+{% endblock %}
+{% block body %}
+
+<div class="container">
+    <div class="background"></div>
+  
+  <body class="addpark-background">
+    
+    
+    <h1>Add Park</h1>
+    <br>
+    <br>
+    <section class="addpark-bg-image">
+   </section>
+   
+<!-- <div class="container">
+    <div class="row">
+        <div class="col-4">
+            <div class="box">
+                <div class="text-center"> -->
+
+<!-- <ul> -->
+    <!-- <p>
+        <form action="/map/parkmap" method ="POST">
+        <label for="zipcode">Zipcode</label>
+        <input type="text" name="zipcode" id="zipcode">
+      
+        <button type="submit" id ="playground-search"> Search for a Playground
+     
+        <a href="/map/parkmap">Search for a Playground</a> -->
+        
+      <!-- </button></form> --> 
+
+
+      <div class="add-park">
+        <main class="form-addpark">
+
+    <form action="/new_park" method ="POST">
+        <h1 class="h3 mb-3 fw-normal">New Park Details</h1>
+
+        <div class="form-floating">
+            <input type="text" class="form-control" id="park_name" placeholder="Happy Playground" name="park_name">
+            <label for="park_name">Park Name</label>
+          </div>
+        <!-- <p>
+        <label for ="park_name">Park Name</label> <input type="text" name="park_name" id="park_name">
+        </p> -->
+        <div class="form-floating">
+            <input type="text" class="form-control" id="park_address" placeholder="1234 Main Street" name="park_address">
+            <label for="park_address">Park Address</label>
+          </div>
+        <!-- <p>
+        <label for ="park_address">Park Address</label> <input type="text" name="park_address" id="park_address">
+        </p> -->
+<!-- street address, city, state, zip... if missing one can i pass it to a search i.e. did you mean: -->
+   <!-- <a href="/add_park">Are we missing your favorite park playground?</a> --> 
+   <div class="form-floating">
+    <input type="text" class="form-control" id="park_zipcode" placeholder="54321" name="park_zipcode">
+    <label for="park_zipcode">Zipcode</label>
+  </div>    
+   
+   <!-- <p>
+        <label for = "zipcode">Zipcode</label> <input type="text" name="park_zipcode" id="park_zipcode">
+        </p> -->
+        <p>
+            <input type="submit">
+          </p>
+        <!-- <p>
+        <button type="submit" id ="new_park"> Add Park</button>
+     </p> -->
+    </form>
+
+ </main>   
+</div>
+<!-- </ul> -->
+
+</body>
+</div>
+<!-- <div class="col-6">
+</div> -->
+<!-- </div>
+</div>
+</div>
+</div> -->
+  {% endblock %}
+

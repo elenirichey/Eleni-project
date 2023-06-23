@@ -146,7 +146,7 @@ class Message(db.Model):
         return f"message id = {self.post_id}, region id = {self.region_id}, user id = {self.user_id} time = {self.timestamp}>"
 # <-- do i need to make this current/automatic // how
 # timestamp before it gets to crud function 
-#  how can i have them enter the birthday and get current age?? !!!
+#  can i have them enter the birthday and get current age?
 
 
 def connect_to_db(app, db_name = "Playdates"):

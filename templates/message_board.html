@@ -12,8 +12,7 @@
 {% block body %}
 
 <div class="container">
-  <!-- <div class="background">
-  </div> -->
+  
 
 <body class="board-background">
   <br>
@@ -23,11 +22,7 @@
  </section>
   <br>
   <br>
-  <!-- <h2>Navigation</h2>
-  <ul>
-       
-    <li><a href="/users/{{ user.user_id }}">My Info</a></li>
-  </ul> -->
+  
 
   
   <div class="container">
@@ -48,7 +43,7 @@
       <br>
       <h1>Hello,  {{ user.display_name }}!</h1> 
       
-      <!-- <h3>{{ user.email }}</h3></div> -->
+      
 
 </div>
 </div>
@@ -60,20 +55,20 @@
 
   {% endfor %}
   {% endif %}
-<!-- </div> -->
+
 </div>
   </div> 
   <div class="row">
     <div class="col-9"></div>
     <div class="col-2 col-md-2 col-sm-1">
   <div class="small-box">
-    <!-- <div class="little"> -->
+    
     
       <h6>New Baby?</h6>
       <form action="/add_child" METHOD = "POST">
         <div class="form">
           <input type="date" id="add-child" class="form-control-sm" placeholder="birthdate (MM/DD/YY)" name="birthdate">
-          <!-- <label for="Input">Birthdate (MM/DD/YY)</label> -->
+          
         </div>
         <button type="Submit" id="Add-Child">Add Child
         </button>
@@ -86,16 +81,15 @@
   </div>
 
   <div class="container-fluid">
-    <!-- <div class="row"> -->
-    <!-- <div class="text-center"> -->
+    
       <div class="message-board">
 
-  <!-- need to account for region id -->
+  
   {% if homeboard %}
   <div class="box"><h1 class="h3 mb-3 fw-bold">{{user.region.region_name}}</h1> </div>
  
     {% for message in homeboard %}
-    <!-- for region in regions // for message in region -->
+    
     
     <div class="message-box">
       
@@ -116,41 +110,28 @@
 
     <div class="add-message">
 
-  <!-- <h3> New Message</h3> -->
+  
   <form action="/new_message" method="POST">
     <h2 class="mb-3 fw-bold">Create New Message</h2>
-    <!-- <p>
-    <label for="new-message">Create New Message:</label>
-  </p> -->
- <!-- <div class="text-area"> -->
+   
   <p>
     <textarea name="new-message" id="new-message">
 
 
     </textarea>
   </p>
-<!-- </div> -->
+
     <p>
       <input type="submit">
     </p>
 
   </form>
 </div>
-<!-- </div> -->
+
 </div>
-<!-- </div>
-</div> -->
+
 </body>
 </div>
-  <!-- <h3>Delete Message</h3>
-  <form action="/delete_message" method="POST">
-    <p> 
-      <form>
-        <button type="submit">Delete Message</button>
-      </form>
-    </p> -->
-
-<!-- 
-  </form> -->
+  
    {% endblock %}
-  <!-- region.message --> 
+  

@@ -5,8 +5,7 @@ html, body {
     height: 100%;
     background-color: rgba(186, 242, 187, 0.2);
     
-    /* background-image: url('/static/images/busy park.jpg') no-repeat center center;
-    background-size: cover; */
+    
 
 }
 
@@ -19,41 +18,18 @@ html, body {
     position: relative;
     padding: 20px;
     padding-bottom: 100px;
-    /* background-color: white;
-    background-image: url('/static/images/genericmap1.jpg'); */
-    /* float: right; */
+    
 }
 
 
-/* .map-bg-image */
 
-/* #treasure-map {
-
-  background-color: white;
-    background-image: url('/static/images/treasuremap.jpeg') ;
-    opacity: 60%; */
-    
-    /* position: ; */
-    /* top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    filter: blur(3px);
-    z-index: -1;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100%;
-} */
 .parkmap-background{
   background:rgba(255, 255, 255, 0.2);
-  /* backdrop-filter:blur(50px); */
+  
   height: 100vh;
   width: 100vw;
 }
-/* h2 {
-  font-weight:bold;
-} */
+
 .background{
   filter:blur(20px);
 }
@@ -61,7 +37,7 @@ html, body {
 .map-background{
   background: url('/static/images/treasuremap.jpeg') no-repeat center center;
   background-size: cover;
-  /* backdrop-filter: blur(10px); */
+  
   background-color: white;
   color: black;
   font-weight: bold;
@@ -78,30 +54,15 @@ html, body {
   text-align: center;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
-  /* filter: blur(10px); */
+  
 }
 
-/* .map-bg-image{
-  
 
-} */
 
 .navbar{
   width: 100%;
 }
-/* .navbar{
-  height: 100%;
-  width: 100%;
-  position: top;
-} */
-/* .bg-image {
-    background: url('/static/images/busy park.jpg') no-repeat center center;
-    background-size: cover;
-    width: 100%;
-    height: 100%;
-    backdrop-filter: blur(20px) grayscale(20%); */
 
-/* }  */
 .my-photo {
     background: url('/static/images/busy park.jpg') no-repeat center center;
     background-size: cover;
@@ -123,17 +84,7 @@ opacity: 50%;
 -webkit-text-stroke: white;
   -webkit-text-stroke-color: white;
   -webkit-text-stroke-width: 1px;
-    /* Add the blur effect */
-    /* filter: blur(8px);
-    /* -webkit-filter: blur(8px); */
-  
-    /* Full height */
-    /* height: 100%;
-  
-    /* Center and scale the image nicely */
-    /* background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;  */ 
+     
     position: absolute;
     top: 0;
     left: 0;
@@ -188,25 +139,7 @@ font-size: 16pt;
 
 
 
-/* .map-background{
-  background-color: white;
-  color: black;
-  font-weight: bold;
-  border: 3px solid #f1f1f1;
-  text-shadow: 3px solid black;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  width: 100%;
-  padding: 20px;
-  text-align: center;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
 
-
-} */
 
 
 .user {
@@ -224,17 +157,7 @@ text-align: center;
 opacity: 50%;
 
 
-  /* Add the blur effect */
-  /* filter: blur(8px);
-  /* -webkit-filter: blur(8px); */
-
-  /* Full height */
-  /* height: 100%;
-
-  /* Center and scale the image nicely */
-  /* background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;  */ 
+   
   position: absolute;
   top: 0;
   left: 0;
@@ -274,9 +197,7 @@ label[for="zipcode"]{
   color:rgb(42, 96, 43)
 }
 
-/* h1{
-  text-align: center;
-} */
+
 
 
 .form-addpark {
@@ -293,7 +214,7 @@ label[for="zipcode"]{
 
 .form-addpark .checkbox {
   font-weight: 400;
-  /* text-align: center; */
+  
 }
 
 .form-addpark .form-floating:focus-within {
@@ -311,26 +232,16 @@ color: rgb(161, 157, 157);
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
   color: rgb(164, 161, 161);
-  /* -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  height: 75px; /*Increase height as required*/
-  /* margin-bottom: 30px;
-  padding: 0 20px; Now only left & right padding */ 
+  
 
 
 }
  
-/* .form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  color: rgb(166, 164, 164);
-} */
+
 
 .box{
     width: 100%;
-    /* border: 1px solid black; */
+    
     float: center;
     text-align: center;
 }
@@ -438,9 +349,7 @@ width: auto;
   width: 25%;
     border: 1px solid black;
     margin: 1px;
-    /* display: flex; */
-    /* justify-content: center;
-    align-items: center; */
+    
     padding:10px;
     left: 0;
     right: 0;
@@ -449,7 +358,7 @@ width: auto;
     text-align: center;
     vertical-align: center;
     
-    /* word-wrap: break-word; */
+    
     background-color:rgb(231, 250, 231)
 }
 
@@ -483,9 +392,9 @@ width: auto;
 }
 .small-box{
   font-size: small;
-  /* width:100%; */
+  
   max-width: 200px;
-  /* float: right; */
+  
   margin:5px;
   padding: 5px;
   width: 25%;
@@ -493,10 +402,10 @@ width: auto;
     margin: 0;
     left: 0;
     height: auto;
-    /* max-height:10px; */
+    
     width: auto;
     text-align: center;
-  /* line-height: 10px; */
+  
   background-color:rgb(231, 250, 231)
 
 }
@@ -544,53 +453,3 @@ h2 {
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: rgb(55, 4, 81);
 }
-/* .child-display{
-  font-size: 10pt;
-} */
-/* 
-* {
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Source Sans Pro', sans-serif;
-  }
-  
-  nav {
-    display: flex;
-    background: rgb(88, 89, 91);
-  }
-  
-  nav p,
-  nav a,
-  nav button {
-    display: inline-block;
-    color: white;
-    padding: 0;
-    margin: 0.5em;
-    font-size: 1em;
-    font-family: inherit;
-  }
-  
-  nav a,
-  nav button {
-    background: transparent;
-    background: transparent;
-    border-top: 0;
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 1px solid white;
-    text-decoration: none;
-  }
-  
-  nav a:hover,
-  nav button:hover {
-    cursor: pointer;
-    border-bottom: 0;
-    color: yellow;
-  }
-  
-  #links-right {
-    margin-left: auto; */
-  /* }
-   */

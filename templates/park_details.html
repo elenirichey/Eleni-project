@@ -30,10 +30,9 @@
 </div>
 <br>
 <br>
-<!-- park hours, park amenities -->
+
 <div class="container-fluid">
-    <!-- <div class="row"> -->
-    <!-- <div class="text-center"> -->
+    
       <div class="message-board">
         <div class="box"><h1 class="h3 mb-3 fw-normal">{{park.park_name}} Messages</h1> </div>
 {% if park.messages %}
@@ -49,7 +48,7 @@
     {{park.message.message}}
     {{ park.message.timestamp }}
     -- {{ park.message.user.display_name }}
-  <!-- <div class="message-box"> -->
+  
    </div>   
 {% endfor %}
 {% else %}
